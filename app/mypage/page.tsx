@@ -147,11 +147,11 @@ export default function MyPage() {
             style={{
               position: 'absolute',
               right: 16,
-              top: 28,
+              top: 20,
               width: 32,
               height: 32,
               borderRadius: '50%',
-              background: '#111',
+              background: '#888',
               color: '#fff',
               border: 'none',
               fontWeight: 'bold',
