@@ -114,12 +114,12 @@ export default function TimelinePage() {
         </div>
       </nav>
       <div style={{ maxWidth: 700, margin: "0 auto", padding: 0 }}>
-        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520, position: 'relative' }}>
+        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 70 }}>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
             rows={2}
-            style={{ width: "100%", fontSize: 12, padding: 8, borderRadius: 8, border: '1px solid #d1d5db', background: '#f9fafb', resize: 'none', marginBottom: 10, color: '#111' }}
+            style={{ width: "100%", fontSize: 12, padding: 8, borderRadius: 8, border: '1px solid #d1d5db', background: '#f9fafb', resize: 'none', marginBottom: 10, color: '#111', boxSizing: 'border-box' }}
             placeholder="今日の頑張りや気持ちをつぶやこう！"
           />
           <button
