@@ -143,17 +143,17 @@ export default function TimelinePage() {
         <div style={{ maxWidth: 520, margin: '0 auto' }}>
           {posts.length === 0 && <div style={{ color: '#888', textAlign: 'center', marginTop: 32, fontSize: 12 }}>投稿がありません。</div>}
           {posts.map((post: any) => (
-            <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 12, padding: 14, marginBottom: 18, boxShadow: '0 2px 8px #e3e8f0', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 12 }}>
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 12, padding: 14, marginBottom: 18, boxShadow: '0 2px 8px #e3e8f0', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10 }}>
               {getInitialIcon(post.nickname_ja || post.user?.nickname_ja || "匿名")}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
-                  <span style={{ fontWeight: 'bold', color: '#0070f3', fontSize: 13 }}>{post.nickname_ja || post.user?.nickname_ja || "匿名"}</span>
-                  <span style={{ fontSize: 10, color: '#888', marginLeft: 8 }}>{new Date(post.created_at).toLocaleString()}</span>
-                  {post.is_my_rule && <span style={{ marginLeft: 8, color: '#bfa100', fontWeight: 'bold', fontSize: 11, background: '#fffbe6', borderRadius: 4, padding: '2px 8px' }}>MyRule</span>}
+                  <span style={{ fontWeight: 'bold', color: '#0070f3', fontSize: 11 }}>{post.nickname_ja || post.user?.nickname_ja || "匿名"}</span>
+                  <span style={{ fontSize: 8, color: '#888', marginLeft: 8 }}>{new Date(post.created_at).toLocaleString()}</span>
+                  {post.is_my_rule && <span style={{ marginLeft: 8, color: '#bfa100', fontWeight: 'bold', fontSize: 9, background: '#fffbe6', borderRadius: 4, padding: '2px 8px' }}>MyRule</span>}
                 </div>
-                <div style={{ marginBottom: 8, fontSize: 12, color: '#222', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
+                <div style={{ marginBottom: 8, fontSize: 10, color: '#222', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <button onClick={() => handleLike(post.id)} style={{ background: '#f6f7fa', color: '#0070f3', border: '1px solid #e3e8f0', borderRadius: 6, padding: '2px 10px', fontWeight: 'bold', fontSize: 11, cursor: 'pointer' }}>
+                  <button onClick={() => handleLike(post.id)} style={{ background: '#f6f7fa', color: '#0070f3', border: '1px solid #e3e8f0', borderRadius: 6, padding: '2px 8px', fontWeight: 'bold', fontSize: 9, cursor: 'pointer' }}>
                     いいね ({post.likes || 0})
                   </button>
                 </div>
