@@ -37,7 +37,7 @@ export default function MyPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f6f7fa', color: '#222' }}>
+    <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
       {/* ナビゲーションバー */}
       <nav style={{ background: '#fff', borderBottom: '1px solid #e3e8f0', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', color: '#111', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
       <div style={{ textAlign: 'center', padding: 16 }}>
         <div style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 12, letterSpacing: 1, color: '#111' }}>process</div>
         <div style={{ marginBottom: 16, fontSize: 12, lineHeight: 1.5, color: '#111' }}>
