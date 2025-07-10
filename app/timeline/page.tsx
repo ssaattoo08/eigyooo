@@ -127,16 +127,16 @@ export default function TimelinePage() {
             disabled={loading}
             style={{
               position: 'absolute',
-              right: 16,
-              bottom: 16,
-              width: 44,
-              height: 44,
+              right: 12,
+              bottom: 12,
+              width: 28,
+              height: 28,
               borderRadius: '50%',
               background: '#111',
               color: '#fff',
               border: 'none',
               fontWeight: 'bold',
-              fontSize: 15,
+              fontSize: 10,
               boxShadow: '0 1px 4px #e3e8f0',
               display: 'flex',
               alignItems: 'center',
@@ -161,26 +161,13 @@ export default function TimelinePage() {
         </div>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
           {postsByDate.map((dayPosts, i) => (
-            <div key={i} style={{ flex: 1, minHeight: 80 }}>
+            <div key={i} style={{ flex: 1, minHeight: 80, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start' }}>
               {dayPosts.length === 0 ? (
                 <div style={{ color: '#bbb', fontSize: 11, textAlign: 'center', marginTop: 8 }}>投稿なし</div>
               ) : (
                 dayPosts.map((post: any) => (
-                  <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 10, padding: 8, marginBottom: 8, boxShadow: '0 1px 4px #e3e8f0', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#111' }}>
+                  <div key={post.id} style={{ background: 'none', border: 'none', boxShadow: 'none', margin: '12px 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {getInitialIcon(post.nickname_ja)}
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
-                        {/* 投稿者名は非表示にする */}
-                        <span style={{ display: 'none' }}>{post.nickname_ja}</span>
-                        <span style={{ fontSize: 8, color: '#888', marginLeft: 0 }}>{new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                      </div>
-                      <div style={{ marginBottom: 4, fontSize: 10, color: '#111', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <button onClick={() => handleLike(post.id)} style={{ background: '#f6f7fa', color: '#111', border: '1px solid #e3e8f0', borderRadius: 6, padding: '2px 8px', fontWeight: 'bold', fontSize: 9, cursor: 'pointer' }}>
-                          いいね ({post.likes || 0})
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 ))
               )}
