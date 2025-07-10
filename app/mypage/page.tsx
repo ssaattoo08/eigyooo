@@ -95,13 +95,14 @@ export default function MyPage() {
           ))}
           {days.map((date, i) => {
             const inMonth = isSameMonth(date, month);
+            if (!inMonth) return <div key={i}></div>;
             const ymd = format(date, 'yyyy-MM-dd');
             const posted = postDates.includes(ymd);
             const isSun = isSunday(date);
             const isSat = isSaturday(date);
             return (
               <div key={i} style={{
-                width: 24, height: 24, borderRadius: 6, background: posted ? '#111' : inMonth ? '#fff' : '#f6f7fa', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: 24, height: 24, borderRadius: 6, background: posted ? '#111' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 border: 'none',
                 color: posted ? '#fff' : isSun ? '#e00' : isSat ? '#0070f3' : '#111',
                 fontWeight: posted ? 'bold' : 'normal',
@@ -132,12 +133,12 @@ export default function MyPage() {
       </nav>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 0 32px 0' }}>
         {/* 投稿ボックス追加 */}
-        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 70, border: '1px solid #d1d5db', display: 'block' }}>
+        <div style={{ margin: '0 auto 16px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 10, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 40, border: '1px solid #d1d5db', display: 'block' }}>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
             rows={2}
-            style={{ width: "100%", fontSize: 12, padding: 8, borderRadius: 8, border: 'none', background: '#fff', resize: 'none', marginBottom: 10, color: '#111', boxSizing: 'border-box', outline: 'none', fontWeight: 500, minHeight: 50 }}
+            style={{ width: "100%", fontSize: 12, padding: 6, borderRadius: 8, border: 'none', background: '#fff', resize: 'none', marginBottom: 6, color: '#111', boxSizing: 'border-box', outline: 'none', fontWeight: 500, minHeight: 30, height: 30, lineHeight: 1.3 }}
             placeholder="今日の頑張りや気持ちをつぶやこう！"
           />
           <button
@@ -146,7 +147,7 @@ export default function MyPage() {
             style={{
               position: 'absolute',
               right: 16,
-              top: 16,
+              top: 38,
               width: 32,
               height: 32,
               borderRadius: '50%',
@@ -168,13 +169,13 @@ export default function MyPage() {
           </button>
           {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
         </div>
-        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 20, margin: '0 auto 24px auto', maxWidth: 520, textAlign: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 12, margin: '0 auto 16px auto', maxWidth: 520, textAlign: 'center', minHeight: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
             {getInitialIcon(nickname.ja)}
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname.ja}</span>
           </div>
           {/* カレンダーをプロフィールボックス内に小さく表示 */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, margin: '16px 0 0 0', transform: 'scale(0.85)', transformOrigin: 'top center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, margin: '8px 0 0 0', transform: 'scale(0.85)', transformOrigin: 'top center' }}>
             {months.map(m => renderCalendar(m))}
           </div>
         </div>
