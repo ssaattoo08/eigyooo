@@ -79,7 +79,7 @@ export default function CalendarPage() {
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
           <Link href="/" style={{ fontWeight: 'bold', fontSize: 18, color: '#111', textDecoration: 'none', letterSpacing: 0, fontStretch: 'condensed' }}>process</Link>
           <div style={{ display: 'flex', gap: 18 }}>
-            <Link href="/timeline" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Timeline</Link>
+            <Link href="/calendar" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Calendar</Link>
             <Link href="/mypage" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>MyPage</Link>
           </div>
         </div>
