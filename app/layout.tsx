@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 import Head from "next/head";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,6 +28,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="description" content="営業職のための匿名SNS" />
       </Head>
       <body style={{ background: '#fff', color: '#111', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 13, minHeight: '100vh' }}>
+        <nav style={{ padding: '10px 20px', background: '#eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/calendar" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Calendar</Link>
+        </nav>
         {children}
       </body>
     </html>

@@ -42,7 +42,7 @@ export default function RegisterPage() {
     }
     setLoading(false);
     // 登録後、タイムラインへ遷移
-    router.push("/timeline");
+    router.push("/calendar");
   };
 
   return (
@@ -76,6 +76,7 @@ export default function RegisterPage() {
           {loading ? "登録中..." : "新規登録"}
         </button>
         {error && <div style={{ color: "red", marginTop: 8, fontSize: 11 }}>{error}</div>}
+        <a href="/calendar" style={{ color: '#111', fontWeight: 'bold', fontSize: 13, textDecoration: 'none', marginLeft: 12 }}>Calendar</a>
       </div>
     </div>
   );

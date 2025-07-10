@@ -23,7 +23,7 @@ export default function LoginPage() {
       return;
     }
     // ログイン成功時はタイムラインへ
-    router.push("/timeline");
+    router.push("/calendar");
   };
 
   return (
@@ -58,6 +58,7 @@ export default function LoginPage() {
         <div style={{ marginTop: 8 }}>
           <a href="/register" style={{ color: '#0070f3', textDecoration: 'underline', fontSize: 11 }}>新規登録はこちら</a>
         </div>
+        <a href="/calendar" style={{ color: '#111', fontWeight: 'bold', fontSize: 13, textDecoration: 'none', marginLeft: 12 }}>Calendar</a>
         {error && <div style={{ color: "red", marginTop: 8, fontSize: 11 }}>{error}</div>}
       </div>
     </div>
