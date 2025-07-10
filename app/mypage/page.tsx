@@ -119,7 +119,7 @@ export default function MyPage() {
           </button>
           {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
         </div>
-        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 20, margin: '0 auto 24px auto', maxWidth: 480, textAlign: 'center' }}>
+        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 20, margin: '0 auto 24px auto', maxWidth: 520, textAlign: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
             {getInitialIcon(nickname.ja)}
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname.ja}</span>
@@ -131,7 +131,7 @@ export default function MyPage() {
           <div style={{ color: '#bbb', textAlign: 'center', marginTop: 32, fontSize: 12 }}>まだ投稿がありません。</div>
         ) : (
           posts.map((post: any) => (
-            <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 10, padding: 12, marginBottom: 18, boxShadow: '0 1px 4px #e3e8f0', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#111' }}>
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 10, padding: 12, margin: '0 auto 18px auto', boxShadow: '0 1px 4px #e3e8f0', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#111', maxWidth: 520 }}>
               {getInitialIcon(post.nickname_ja)}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
