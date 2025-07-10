@@ -7,6 +7,8 @@ export default function MyPage() {
   const [nickname, setNickname] = useState({ en: "", ja: "" });
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [content, setContent] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const nickname_en = localStorage.getItem("nickname_en") || "";
@@ -24,6 +26,37 @@ export default function MyPage() {
       .order("created_at", { ascending: false });
     setPosts(data || []);
     setLoading(false);
+  };
+
+  const handlePost = async () => {
+    if (!content.trim()) {
+      setError("投稿内容を入力してください。");
+      return;
+    }
+    setError(null);
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .insert({
+          nickname_en: nickname.en,
+          nickname_ja: nickname.ja,
+          content: content,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        throw error;
+      }
+      setContent("");
+      fetchMyPosts(nickname.en);
+    } catch (err) {
+      console.error("Error posting:", err);
+      setError("投稿に失敗しました。");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // アイコンのダミー（イニシャル）
@@ -49,6 +82,43 @@ export default function MyPage() {
         </div>
       </nav>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 0 32px 0' }}>
+        {/* 投稿ボックス追加 */}
+        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 70, border: '1px solid #d1d5db', display: 'block' }}>
+          <textarea
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            rows={2}
+            style={{ width: "100%", fontSize: 12, padding: 8, borderRadius: 8, border: 'none', background: '#fff', resize: 'none', marginBottom: 10, color: '#111', boxSizing: 'border-box', outline: 'none', fontWeight: 500, minHeight: 50 }}
+            placeholder="今日の頑張りや気持ちをつぶやこう！"
+          />
+          <button
+            onClick={handlePost}
+            disabled={loading}
+            style={{
+              position: 'absolute',
+              right: 16,
+              top: 16,
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              background: '#111',
+              color: '#fff',
+              border: 'none',
+              fontWeight: 'bold',
+              fontSize: 13,
+              opacity: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'background 0.2s',
+              zIndex: 2
+            }}
+          >
+            {loading ? "..." : "Post"}
+          </button>
+          {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
+        </div>
         <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 20, margin: '0 auto 24px auto', maxWidth: 480, textAlign: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
             {getInitialIcon(nickname.ja)}

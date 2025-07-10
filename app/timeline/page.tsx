@@ -114,42 +114,7 @@ export default function TimelinePage() {
         </div>
       </nav>
       <div style={{ maxWidth: 700, margin: "0 auto", padding: 0 }}>
-        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 70, border: '1px solid #d1d5db', display: 'block' }}>
-          <textarea
-            value={content}
-            onChange={e => setContent(e.target.value)}
-            rows={2}
-            style={{ width: "100%", fontSize: 12, padding: 8, borderRadius: 8, border: 'none', background: '#f9fafb', resize: 'none', marginBottom: 10, color: '#111', boxSizing: 'border-box', outline: 'none', fontWeight: 500, minHeight: 50 }}
-            placeholder="今日の頑張りや気持ちをつぶやこう！"
-          />
-          <button
-            onClick={handlePost}
-            disabled={loading}
-            style={{
-              position: 'absolute',
-              right: 22,
-              bottom: 18,
-              width: 56,
-              height: 56,
-              borderRadius: '50%',
-              background: '#111',
-              color: '#fff',
-              border: 'none',
-              fontWeight: 'bold',
-              fontSize: 20,
-              opacity: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'background 0.2s',
-              zIndex: 2
-            }}
-          >
-            {loading ? "..." : "Post"}
-          </button>
-          {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
-        </div>
+        {/* 投稿ボックス削除 */}
         {/* 週次カレンダー表示 */}
         <div style={{ display: 'flex', gap: 8, marginTop: 32, marginBottom: 16, justifyContent: 'center' }}>
           {weekDates.map((date, i) => (
