@@ -78,7 +78,7 @@ export default function TimelinePage() {
   const getInitialIcon = (nickname: string) => {
     return (
       <div style={{
-        width: 24, height: 24, borderRadius: "50%", background: "#e3e8f0", color: "#111", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: 12, marginRight: 8 }}>
+        width: 36, height: 36, borderRadius: "50%", background: "#111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: 16, marginRight: 0 }}>
         {nickname ? nickname[0] : "?"}
       </div>
     );
@@ -114,7 +114,7 @@ export default function TimelinePage() {
         </div>
       </nav>
       <div style={{ maxWidth: 700, margin: "0 auto", padding: 0 }}>
-        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520 }}>
+        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520, position: 'relative' }}>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
@@ -125,9 +125,28 @@ export default function TimelinePage() {
           <button
             onClick={handlePost}
             disabled={loading}
-            style={{ width: '100%', padding: 8, fontSize: 12, background: '#0070f3', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 'bold', marginBottom: 4, boxShadow: '0 1px 4px #e3e8f0' }}
+            style={{
+              position: 'absolute',
+              right: 16,
+              bottom: 16,
+              width: 44,
+              height: 44,
+              borderRadius: '50%',
+              background: '#111',
+              color: '#fff',
+              border: 'none',
+              fontWeight: 'bold',
+              fontSize: 15,
+              boxShadow: '0 1px 4px #e3e8f0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'background 0.2s',
+              zIndex: 2
+            }}
           >
-            {loading ? "投稿中..." : "投稿する"}
+            {loading ? "..." : "Post"}
           </button>
           {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
         </div>
@@ -151,8 +170,9 @@ export default function TimelinePage() {
                     {getInitialIcon(post.nickname_ja)}
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
-                        <span style={{ fontWeight: 'bold', color: '#111', fontSize: 11 }}>{post.nickname_ja}</span>
-                        <span style={{ fontSize: 8, color: '#888', marginLeft: 8 }}>{new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        {/* 投稿者名は非表示にする */}
+                        <span style={{ display: 'none' }}>{post.nickname_ja}</span>
+                        <span style={{ fontSize: 8, color: '#888', marginLeft: 0 }}>{new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                       <div style={{ marginBottom: 4, fontSize: 10, color: '#111', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
