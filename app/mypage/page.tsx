@@ -61,7 +61,7 @@ export default function MyPage() {
           <div style={{ color: '#bbb', textAlign: 'center', marginTop: 32 }}>まだ投稿がありません。</div>
         ) : (
           posts.map((post: any) => (
-            <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 12, padding: 16, marginBottom: 18, boxShadow: '0 2px 8px #e3e8f0', display: 'flex', alignItems: 'flex-start' }}>
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 12, padding: 16, marginBottom: 18, boxShadow: '0 2px 8px #e3e8f0', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif' }}>
               {getInitialIcon(post.nickname_ja)}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
@@ -69,7 +69,7 @@ export default function MyPage() {
                   <span style={{ fontSize: 11, color: '#888', marginLeft: 8 }}>{new Date(post.created_at).toLocaleString()}</span>
                   {post.is_my_rule && <span style={{ marginLeft: 8, color: '#bfa100', fontWeight: 'bold', fontSize: 12, background: '#fffbe6', borderRadius: 4, padding: '2px 8px' }}>MyRule</span>}
                 </div>
-                <div style={{ marginBottom: 8, fontSize: 14, whiteSpace: 'pre-line' }}>{post.content}</div>
+                <div style={{ marginBottom: 8, fontSize: 14, color: '#222', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ background: '#f6f7fa', color: '#0070f3', border: '1px solid #e3e8f0', borderRadius: 6, padding: '2px 12px', fontWeight: 'bold', fontSize: 13 }}>
                     いいね {post.likes || 0}
