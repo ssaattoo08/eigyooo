@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
+import { addMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, format, isSameDay, isSameMonth, isWeekend, isSunday, isSaturday } from "date-fns";
 
 export default function MyPage() {
   const [nickname, setNickname] = useState({ en: "", ja: "" });
@@ -69,6 +70,59 @@ export default function MyPage() {
     );
   };
 
+  // カレンダー生成
+  const today = new Date();
+  const months = [0, 1].map(offset => addMonths(today, offset));
+  // 投稿日リスト（日付文字列）
+  const postDates = posts.map(p => p.created_at.slice(0, 10));
+
+  const renderCalendar = (month: Date) => {
+    const start = startOfWeek(startOfMonth(month), { weekStartsOn: 0 });
+    const end = endOfWeek(endOfMonth(month), { weekStartsOn: 0 });
+    const days = [];
+    let d = start;
+    while (d <= end) {
+      days.push(new Date(d));
+      d = new Date(d);
+      d.setDate(d.getDate() + 1);
+    }
+    return (
+      <div style={{ display: 'inline-block', margin: 16 }}>
+        <div style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 8 }}>{format(month, 'yyyy年M月')}</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 32px)', gap: 4 }}>
+          {["日", "月", "火", "水", "木", "金", "土"].map((w, i) => (
+            <div key={w} style={{ textAlign: 'center', fontSize: 12, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold' }}>{w}</div>
+          ))}
+          {days.map((date, i) => {
+            const inMonth = isSameMonth(date, month);
+            const ymd = format(date, 'yyyy-MM-dd');
+            const posted = postDates.includes(ymd);
+            const isSun = isSunday(date);
+            const isSat = isSaturday(date);
+            return (
+              <div key={i} style={{
+                width: 32, height: 32, borderRadius: 8, background: inMonth ? '#fff' : '#f6f7fa', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: posted ? '2px solid #111' : '1px solid #e3e8f0',
+                color: posted ? '#fff' : isSun ? '#e00' : isSat ? '#0070f3' : '#111',
+                fontWeight: posted ? 'bold' : 'normal',
+                fontSize: 15,
+                margin: 0,
+                position: 'relative',
+                backgroundColor: posted ? '#111' : inMonth ? '#fff' : '#f6f7fa',
+              }}>
+                {posted ? (
+                  <span style={{ borderRadius: '50%', width: 24, height: 24, background: '#111', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: 15 }}>{date.getDate()}</span>
+                ) : (
+                  <span>{date.getDate()}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
       {/* ナビゲーションバー */}
@@ -124,6 +178,10 @@ export default function MyPage() {
             {getInitialIcon(nickname.ja)}
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname.ja}</span>
           </div>
+        </div>
+        {/* カレンダー追加 */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 32 }}>
+          {months.map(m => renderCalendar(m))}
         </div>
         {loading ? (
           <div style={{ color: '#888', textAlign: 'center', fontSize: 12 }}>読み込み中...</div>
