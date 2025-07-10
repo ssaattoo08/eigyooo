@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 import Holidays from 'date-holidays';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay } from 'date-fns';
+import { ja } from 'date-fns/locale';
 
 interface Comment {
   id: number;
@@ -43,24 +44,10 @@ export default function CalendarPage() {
       .from("posts")
       .select("*")
       .order("created_at", { ascending: false });
-    if (error) {
-      // setError("投稿の取得に失敗しました: " + error.message); // Original code had this line commented out
-    } else {
-      setPosts(data || []);
-    }
+    if (!error) setPosts(data || []);
   };
 
-  // アイコンのダミー（イニシャル）
-  const getInitialIcon = (nickname: string) => {
-    return (
-      <div style={{
-        width: 36, height: 36, borderRadius: "50%", background: "#111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: 16, marginRight: 0 }}>
-        {nickname ? nickname[0] : "?"}
-      </div>
-    );
-  };
-
-  // 月次カレンダー生成
+  // カレンダー生成
   const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
   const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
   const days = [];
@@ -70,10 +57,18 @@ export default function CalendarPage() {
     d = new Date(d);
     d.setDate(d.getDate() + 1);
   }
+  const weeks = [];
+  for (let i = 0; i < days.length; i += 7) {
+    weeks.push(days.slice(i, i + 7));
+  }
   const postDates = posts.map(p => p.created_at.slice(0, 10));
 
+  // 前月・翌月の月
+  const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
+    <div style={{ minHeight: '100vh', background: '#fff', color: '#111', padding: 0 }}>
       {/* ナビゲーションバー */}
       <nav style={{ background: '#fff', borderBottom: '1px solid #e3e8f0', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
@@ -84,43 +79,51 @@ export default function CalendarPage() {
           </div>
         </div>
       </nav>
-      <div style={{ maxWidth: 700, margin: "0 auto", padding: 0 }}>
-        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 18, margin: '24px 0' }}>
-          {format(currentMonth, 'yyyy年M月')}
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: 0 }}>
+        {/* ヘッダー */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '32px 0 8px 0' }}>
+          <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>◀</button>
+          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 28, letterSpacing: 0 }}>{format(currentMonth, 'M', { locale: ja })}</div>
+          <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>▶</button>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 40px)', gap: 4, justifyContent: 'center' }}>
-          {["日", "月", "火", "水", "木", "金", "土"].map((w, i) => (
-            <div key={w} style={{ textAlign: 'center', fontSize: 13, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold' }}>{w}</div>
-          ))}
-          {days.map((date, i) => {
-            const inMonth = isSameMonth(date, currentMonth);
-            const ymd = format(date, 'yyyy-MM-dd');
-            const posted = postDates.includes(ymd);
-            const holiday = hd.isHoliday(date);
-            const isSun = date.getDay() === 0;
-            const isSat = date.getDay() === 6;
-            let color = '#111';
-            if (holiday) color = '#e00';
-            else if (isSun) color = '#e00';
-            else if (isSat) color = '#0070f3';
-            return (
-              <div key={i} style={{
-                width: 40, height: 40, borderRadius: 8, background: posted ? '#111' : inMonth ? '#fff' : '#f6f7fa', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color,
-                fontWeight: posted ? 'bold' : 'normal',
-                fontSize: 15,
-                margin: 0,
-                position: 'relative',
-              }}>
-                {posted ? (
-                  <span style={{ borderRadius: '50%', width: 28, height: 28, background: '#111', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: 15 }}>{date.getDate()}</span>
-                ) : (
-                  <span>{date.getDate()}</span>
-                )}
-              </div>
-            );
-          })}
-        </div>
+        <div style={{ textAlign: 'center', fontSize: 15, color: '#888', marginBottom: 8 }}>{format(currentMonth, 'yyyy年', { locale: ja })}</div>
+        {/* カレンダー本体 */}
+        <table style={{ borderCollapse: 'collapse', width: '100%', background: '#fff', boxShadow: '0 2px 8px #eee', fontSize: 18 }}>
+          <thead>
+            <tr>
+              {["日", "月", "火", "水", "木", "金", "土"].map((w, i) => (
+                <th key={w} style={{ border: '1px solid #e3e8f0', padding: 0, width: '14.2%', height: 36, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold', fontSize: 16, background: '#fafbfc' }}>{w}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {weeks.map((week, wi) => (
+              <tr key={wi}>
+                {week.map((date, di) => {
+                  const inMonth = isSameMonth(date, currentMonth);
+                  const ymd = format(date, 'yyyy-MM-dd');
+                  const posted = postDates.includes(ymd);
+                  const holiday = hd.isHoliday(date);
+                  const isSun = date.getDay() === 0;
+                  const isSat = date.getDay() === 6;
+                  let color = '#111';
+                  if (holiday) color = '#e00';
+                  else if (isSun) color = '#e00';
+                  else if (isSat) color = '#0070f3';
+                  const isOtherMonth = !inMonth;
+                  return (
+                    <td key={di} style={{ border: '1px solid #e3e8f0', verticalAlign: 'top', background: isOtherMonth ? '#fafbfc' : '#fff', color, padding: 0, height: 64, textAlign: 'center', fontSize: isOtherMonth ? 13 : 18, opacity: isOtherMonth ? 0.5 : 1 }}>
+                      <div style={{ fontWeight: posted ? 'bold' : 'normal', marginTop: 4, fontSize: isOtherMonth ? 13 : 18 }}>{date.getDate()}</div>
+                      {holiday && (
+                        <div style={{ color: '#e00', fontSize: 11, marginTop: 2 }}>{holiday[0].name}</div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
