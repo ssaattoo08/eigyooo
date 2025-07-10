@@ -114,13 +114,13 @@ export default function TimelinePage() {
         </div>
       </nav>
       <div style={{ maxWidth: 700, margin: "0 auto", padding: 0 }}>
-        <div style={{ margin: '0 auto 24px auto', background: '#232e3d', borderRadius: 18, boxShadow: 'none', padding: 18, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 90, border: 'none', display: 'flex', alignItems: 'flex-end' }}>
+        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 70, border: '1px solid #d1d5db', display: 'block' }}>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
             rows={2}
-            style={{ width: "100%", fontSize: 15, padding: 0, borderRadius: 8, border: 'none', background: 'transparent', resize: 'none', marginBottom: 0, color: '#fff', boxSizing: 'border-box', outline: 'none', fontWeight: 500, minHeight: 50 }}
-            placeholder="たまにはいいよね！チートデイ！\n例：大好きなお酒を飲みまくった"
+            style={{ width: "100%", fontSize: 12, padding: 8, borderRadius: 8, border: 'none', background: '#f9fafb', resize: 'none', marginBottom: 10, color: '#111', boxSizing: 'border-box', outline: 'none', fontWeight: 500, minHeight: 50 }}
+            placeholder="今日の頑張りや気持ちをつぶやこう！"
           />
           <button
             onClick={handlePost}
@@ -132,12 +132,12 @@ export default function TimelinePage() {
               width: 56,
               height: 56,
               borderRadius: '50%',
-              background: '#5a6473',
+              background: '#111',
               color: '#fff',
               border: 'none',
               fontWeight: 'bold',
               fontSize: 20,
-              opacity: 0.7,
+              opacity: 1,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
