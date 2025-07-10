@@ -85,11 +85,9 @@ export default function CalendarPage() {
       <div style={{ maxWidth: 600, margin: '0 auto', padding: 0 }}>
         {/* ヘッダー */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '32px 0 8px 0' }}>
-          <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>◀</button>
           <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 28, letterSpacing: 0 }}>{format(currentMonth, 'M', { locale: ja })}</div>
-          <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>▶</button>
+          <div style={{ textAlign: 'center', fontSize: 15, color: '#888', marginBottom: 8 }}>{format(currentMonth, 'yyyy年', { locale: ja })}</div>
         </div>
-        <div style={{ textAlign: 'center', fontSize: 15, color: '#888', marginBottom: 8 }}>{format(currentMonth, 'yyyy年', { locale: ja })}</div>
         {/* カレンダー本体 */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: 48, marginTop: 32 }}>
           {months.map((monthDate, idx) => {
