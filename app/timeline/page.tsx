@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import Link from "next/link";
 
 interface Comment {
   id: number;
@@ -109,75 +110,87 @@ export default function TimelinePage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f6f7fa', color: '#222', maxWidth: 600, margin: "0 auto", padding: 0 }}>
-      <div style={{ padding: "24px 0 8px 0", textAlign: 'center', fontSize: 22, fontWeight: 'bold', letterSpacing: 1 }}>タイムライン</div>
-      <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 480 }}>
-        <textarea
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          rows={2}
-          style={{ width: "100%", fontSize: 14, padding: 8, borderRadius: 8, border: '1px solid #d1d5db', background: '#f9fafb', resize: 'none', marginBottom: 8 }}
-          placeholder="今日の頑張りや気持ちをつぶやこう！"
-        />
-        <button
-          onClick={handlePost}
-          disabled={loading}
-          style={{ width: '100%', padding: 8, fontSize: 14, background: '#0070f3', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 'bold', marginBottom: 4, boxShadow: '0 1px 4px #e3e8f0' }}
-        >
-          {loading ? "投稿中..." : "投稿する"}
-        </button>
-        {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 12 }}>{error}</div>}
-      </div>
-      <div style={{ maxWidth: 480, margin: '0 auto' }}>
-        {posts.length === 0 && <div style={{ color: '#888', textAlign: 'center', marginTop: 32 }}>投稿がありません。</div>}
-        {posts.map((post: any) => (
-          <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 12, padding: 16, marginBottom: 18, boxShadow: '0 2px 8px #e3e8f0', display: 'flex', alignItems: 'flex-start' }}>
-            {getInitialIcon(post.nickname_ja || post.user?.nickname_ja || "匿名")}
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
-                <span style={{ fontWeight: 'bold', color: '#0070f3', fontSize: 15 }}>{post.nickname_ja || post.user?.nickname_ja || "匿名"}</span>
-                <span style={{ fontSize: 11, color: '#888', marginLeft: 8 }}>{new Date(post.created_at).toLocaleString()}</span>
-                {/* タグ例 */}
-                {post.is_my_rule && <span style={{ marginLeft: 8, color: '#bfa100', fontWeight: 'bold', fontSize: 12, background: '#fffbe6', borderRadius: 4, padding: '2px 8px' }}>MyRule</span>}
-              </div>
-              <div style={{ marginBottom: 8, fontSize: 14, whiteSpace: 'pre-line' }}>{post.content}</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <button onClick={() => handleLike(post.id)} style={{ background: '#f6f7fa', color: '#0070f3', border: '1px solid #e3e8f0', borderRadius: 6, padding: '2px 12px', fontWeight: 'bold', fontSize: 13, cursor: 'pointer' }}>
-                  いいね ({post.likes || 0})
-                </button>
-              </div>
-              {/* コメント一覧 */}
-              <div style={{ marginTop: 12, background: '#f9fafb', borderRadius: 8, padding: 10, border: '1px solid #e3e8f0' }}>
-                <div style={{ fontWeight: 'bold', marginBottom: 6, color: '#0070f3', fontSize: 13 }}>コメント</div>
-                {comments[post.id]?.length === 0 && <div style={{ color: '#bbb', fontSize: 12 }}>コメントはまだありません。</div>}
-                {comments[post.id]?.map((c) => (
-                  <div key={c.id} style={{ marginBottom: 6, fontSize: 13 }}>
-                    <span style={{ fontWeight: 'bold', color: '#0070f3' }}>{c.nickname_ja}</span>：{c.content}
-                    <span style={{ fontSize: 10, color: '#aaa', marginLeft: 8 }}>{new Date(c.created_at).toLocaleString()}</span>
-                  </div>
-                ))}
-                {/* コメント投稿フォーム */}
-                <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
-                  <input
-                    type="text"
-                    placeholder="コメントを書く"
-                    value={commentInputs[post.id] || ""}
-                    onChange={e => setCommentInputs(prev => ({ ...prev, [post.id]: e.target.value }))}
-                    style={{ flex: 1, padding: 5, borderRadius: 6, border: '1px solid #d1d5db', fontSize: 12, background: '#fff' }}
-                    disabled={commentLoading[post.id]}
-                  />
-                  <button
-                    onClick={() => handleComment(post.id)}
-                    disabled={commentLoading[post.id]}
-                    style={{ background: '#0070f3', color: '#fff', border: 'none', borderRadius: 6, padding: '5px 14px', fontWeight: 'bold', fontSize: 12, cursor: 'pointer' }}
-                  >
-                    {commentLoading[post.id] ? "送信中..." : "送信"}
+    <div style={{ minHeight: '100vh', background: '#f6f7fa', color: '#222' }}>
+      {/* ナビゲーションバー */}
+      <nav style={{ background: '#fff', borderBottom: '1px solid #e3e8f0', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
+          <Link href="/" style={{ fontWeight: 'bold', fontSize: 18, color: '#0070f3', textDecoration: 'none', letterSpacing: 1 }}>eigyooo</Link>
+          <div style={{ display: 'flex', gap: 18 }}>
+            <Link href="/timeline" style={{ color: '#0070f3', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Timeline</Link>
+            <Link href="/mypage" style={{ color: '#222', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>MyPage</Link>
+          </div>
+        </div>
+      </nav>
+      <div style={{ maxWidth: 600, margin: "0 auto", padding: 0 }}>
+        <div style={{ padding: "0 0 8px 0", textAlign: 'center', fontSize: 22, fontWeight: 'bold', letterSpacing: 1 }}>タイムライン</div>
+        <div style={{ margin: '0 auto 24px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 16, maxWidth: 480 }}>
+          <textarea
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            rows={2}
+            style={{ width: "100%", fontSize: 14, padding: 8, borderRadius: 8, border: '1px solid #d1d5db', background: '#f9fafb', resize: 'none', marginBottom: 8 }}
+            placeholder="今日の頑張りや気持ちをつぶやこう！"
+          />
+          <button
+            onClick={handlePost}
+            disabled={loading}
+            style={{ width: '100%', padding: 8, fontSize: 14, background: '#0070f3', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 'bold', marginBottom: 4, boxShadow: '0 1px 4px #e3e8f0' }}
+          >
+            {loading ? "投稿中..." : "投稿する"}
+          </button>
+          {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 12 }}>{error}</div>}
+        </div>
+        <div style={{ maxWidth: 480, margin: '0 auto' }}>
+          {posts.length === 0 && <div style={{ color: '#888', textAlign: 'center', marginTop: 32 }}>投稿がありません。</div>}
+          {posts.map((post: any) => (
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 12, padding: 16, marginBottom: 18, boxShadow: '0 2px 8px #e3e8f0', display: 'flex', alignItems: 'flex-start' }}>
+              {getInitialIcon(post.nickname_ja || post.user?.nickname_ja || "匿名")}
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
+                  <span style={{ fontWeight: 'bold', color: '#0070f3', fontSize: 15 }}>{post.nickname_ja || post.user?.nickname_ja || "匿名"}</span>
+                  <span style={{ fontSize: 11, color: '#888', marginLeft: 8 }}>{new Date(post.created_at).toLocaleString()}</span>
+                  {/* タグ例 */}
+                  {post.is_my_rule && <span style={{ marginLeft: 8, color: '#bfa100', fontWeight: 'bold', fontSize: 12, background: '#fffbe6', borderRadius: 4, padding: '2px 8px' }}>MyRule</span>}
+                </div>
+                <div style={{ marginBottom: 8, fontSize: 14, whiteSpace: 'pre-line' }}>{post.content}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <button onClick={() => handleLike(post.id)} style={{ background: '#f6f7fa', color: '#0070f3', border: '1px solid #e3e8f0', borderRadius: 6, padding: '2px 12px', fontWeight: 'bold', fontSize: 13, cursor: 'pointer' }}>
+                    いいね ({post.likes || 0})
                   </button>
+                </div>
+                {/* コメント一覧 */}
+                <div style={{ marginTop: 12, background: '#f9fafb', borderRadius: 8, padding: 10, border: '1px solid #e3e8f0' }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 6, color: '#0070f3', fontSize: 13 }}>コメント</div>
+                  {comments[post.id]?.length === 0 && <div style={{ color: '#bbb', fontSize: 12 }}>コメントはまだありません。</div>}
+                  {comments[post.id]?.map((c) => (
+                    <div key={c.id} style={{ marginBottom: 6, fontSize: 13 }}>
+                      <span style={{ fontWeight: 'bold', color: '#0070f3' }}>{c.nickname_ja}</span>：{c.content}
+                      <span style={{ fontSize: 10, color: '#aaa', marginLeft: 8 }}>{new Date(c.created_at).toLocaleString()}</span>
+                    </div>
+                  ))}
+                  {/* コメント投稿フォーム */}
+                  <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
+                    <input
+                      type="text"
+                      placeholder="コメントを書く"
+                      value={commentInputs[post.id] || ""}
+                      onChange={e => setCommentInputs(prev => ({ ...prev, [post.id]: e.target.value }))}
+                      style={{ flex: 1, padding: 5, borderRadius: 6, border: '1px solid #d1d5db', fontSize: 12, background: '#fff' }}
+                      disabled={commentLoading[post.id]}
+                    />
+                    <button
+                      onClick={() => handleComment(post.id)}
+                      disabled={commentLoading[post.id]}
+                      style={{ background: '#0070f3', color: '#fff', border: 'none', borderRadius: 6, padding: '5px 14px', fontWeight: 'bold', fontSize: 12, cursor: 'pointer' }}
+                    >
+                      {commentLoading[post.id] ? "送信中..." : "送信"}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
