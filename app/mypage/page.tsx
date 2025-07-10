@@ -54,9 +54,7 @@ export default function MyPage() {
             {getInitialIcon(nickname.ja)}
             <span style={{ fontWeight: 'bold', fontSize: 16, color: '#0070f3' }}>{nickname.ja}</span>
           </div>
-          <div style={{ fontSize: 12, color: '#888' }}>あなたのニックネーム</div>
         </div>
-        <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16, textAlign: 'center' }}>自分の投稿</div>
         {loading ? (
           <div style={{ color: '#888', textAlign: 'center' }}>読み込み中...</div>
         ) : posts.length === 0 ? (
