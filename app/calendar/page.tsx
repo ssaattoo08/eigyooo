@@ -47,9 +47,9 @@ export default function CalendarPage() {
     if (!error) setPosts(data || []);
   };
 
-  // カレンダー生成
-  const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
-  const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
+  // カレンダー生成（月曜始まり）
+  const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 1 });
+  const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 1 });
   const days = [];
   let d = start;
   while (d <= end) {
@@ -61,6 +61,7 @@ export default function CalendarPage() {
   for (let i = 0; i < days.length; i += 7) {
     weeks.push(days.slice(i, i + 7));
   }
+  const weekLabels = ["月", "火", "水", "木", "金", "土", "日"];
   const postDates = posts.map(p => p.created_at.slice(0, 10));
 
   // 前月・翌月の月
@@ -91,8 +92,8 @@ export default function CalendarPage() {
         <table style={{ borderCollapse: 'collapse', width: '100%', background: '#fff', boxShadow: '0 2px 8px #eee', fontSize: 18 }}>
           <thead>
             <tr>
-              {["日", "月", "火", "水", "木", "金", "土"].map((w, i) => (
-                <th key={w} style={{ border: '1px solid #e3e8f0', padding: 0, width: '14.2%', height: 36, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold', fontSize: 16, background: '#fafbfc' }}>{w}</th>
+              {weekLabels.map((w, i) => (
+                <th key={w} style={{ border: '1px solid #e3e8f0', padding: 0, width: '14.2%', height: 36, color: i === 5 ? '#0070f3' : i === 6 ? '#e00' : '#111', fontWeight: 'bold', fontSize: 16, background: '#fafbfc' }}>{w}</th>
               ))}
             </tr>
           </thead>
@@ -104,12 +105,10 @@ export default function CalendarPage() {
                   const ymd = format(date, 'yyyy-MM-dd');
                   const posted = postDates.includes(ymd);
                   const holiday = hd.isHoliday(date);
-                  const isSun = date.getDay() === 0;
-                  const isSat = date.getDay() === 6;
                   let color = '#111';
                   if (holiday) color = '#e00';
-                  else if (isSun) color = '#e00';
-                  else if (isSat) color = '#0070f3';
+                  else if (date.getDay() === 0) color = '#e00'; // 日曜
+                  else if (date.getDay() === 6) color = '#0070f3'; // 土曜
                   const isOtherMonth = !inMonth;
                   return (
                     <td key={di} style={{ border: '1px solid #e3e8f0', verticalAlign: 'top', background: isOtherMonth ? '#fafbfc' : '#fff', color, padding: 0, height: 64, textAlign: 'center', fontSize: isOtherMonth ? 13 : 18, opacity: isOtherMonth ? 0.5 : 1 }}>
