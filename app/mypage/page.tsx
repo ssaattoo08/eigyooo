@@ -87,11 +87,11 @@ export default function MyPage() {
       d.setDate(d.getDate() + 1);
     }
     return (
-      <div style={{ display: 'inline-block', margin: 16 }}>
-        <div style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 8 }}>{format(month, 'yyyy年M月')}</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 32px)', gap: 4 }}>
+      <div style={{ display: 'inline-block', margin: 8 }}>
+        <div style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 6, fontSize: 15 }}>{format(month, 'yyyy年M月')}</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 24px)', gap: 2 }}>
           {["日", "月", "火", "水", "木", "金", "土"].map((w, i) => (
-            <div key={w} style={{ textAlign: 'center', fontSize: 12, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold' }}>{w}</div>
+            <div key={w} style={{ textAlign: 'center', fontSize: 10, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold' }}>{w}</div>
           ))}
           {days.map((date, i) => {
             const inMonth = isSameMonth(date, month);
@@ -101,20 +101,15 @@ export default function MyPage() {
             const isSat = isSaturday(date);
             return (
               <div key={i} style={{
-                width: 32, height: 32, borderRadius: 8, background: inMonth ? '#fff' : '#f6f7fa', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                border: posted ? '2px solid #111' : '1px solid #e3e8f0',
+                width: 24, height: 24, borderRadius: 6, background: posted ? '#111' : inMonth ? '#fff' : '#f6f7fa', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: 'none',
                 color: posted ? '#fff' : isSun ? '#e00' : isSat ? '#0070f3' : '#111',
                 fontWeight: posted ? 'bold' : 'normal',
-                fontSize: 15,
+                fontSize: 12,
                 margin: 0,
                 position: 'relative',
-                backgroundColor: posted ? '#111' : inMonth ? '#fff' : '#f6f7fa',
               }}>
-                {posted ? (
-                  <span style={{ borderRadius: '50%', width: 24, height: 24, background: '#111', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: 15 }}>{date.getDate()}</span>
-                ) : (
-                  <span>{date.getDate()}</span>
-                )}
+                {date.getDate()}
               </div>
             );
           })}
@@ -178,10 +173,10 @@ export default function MyPage() {
             {getInitialIcon(nickname.ja)}
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname.ja}</span>
           </div>
-        </div>
-        {/* カレンダー追加 */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 32 }}>
-          {months.map(m => renderCalendar(m))}
+          {/* カレンダーをプロフィールボックス内に小さく表示 */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, margin: '16px 0 0 0', transform: 'scale(0.85)', transformOrigin: 'top center' }}>
+            {months.map(m => renderCalendar(m))}
+          </div>
         </div>
         {loading ? (
           <div style={{ color: '#888', textAlign: 'center', fontSize: 12 }}>読み込み中...</div>
