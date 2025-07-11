@@ -67,7 +67,7 @@ export default function RegisterPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
-      <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, textAlign: 'center' }}>
+      <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, margin: '40px auto', textAlign: 'center' }}>
         <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>新規登録</div>
         <div style={{ fontSize: 11, marginBottom: 18, color: '#888' }}>登録すると自動でニックネームが付与されます</div>
         <div style={{ margin: '10px 0' }}>
@@ -76,7 +76,7 @@ export default function RegisterPage() {
             placeholder="メールアドレス"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12 }}
+            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
             autoComplete="email"
           />
           <input
@@ -84,19 +84,18 @@ export default function RegisterPage() {
             placeholder="パスワード"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12 }}
+            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
             autoComplete="new-password"
           />
         </div>
         <button
           onClick={handleRegister}
           disabled={loading}
-          style={{ width: '100%', padding: 8, fontSize: 13, background: '#0070f3', color: '#fff', border: 'none', borderRadius: 5, fontWeight: 'bold', marginBottom: 6 }}
+          style={{ width: '100%', padding: 8, fontSize: 13, background: '#111', color: '#fff', border: 'none', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
         >
           {loading ? "登録中..." : "新規登録"}
         </button>
         {error && <div style={{ color: "red", marginTop: 8, fontSize: 11 }}>{error}</div>}
-        <a href="/calendar" style={{ color: '#111', fontWeight: 'bold', fontSize: 13, textDecoration: 'none', marginLeft: 12 }}>Calendar</a>
       </div>
     </div>
   );
