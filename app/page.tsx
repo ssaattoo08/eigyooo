@@ -24,7 +24,9 @@ export default function Home() {
         </div>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
           <a href="/login" style={{ padding: '10px 32px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 15, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc' }}>ログイン</a>
-          <a href="/register" style={{ padding: '10px 32px', background: '#111', color: '#fff', borderRadius: 8, fontSize: 15, textDecoration: 'none', fontWeight: 'bold', border: 'none' }}>新規登録</a>
+          <a href="/register" style={{ padding: '10px 32px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 15, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc' }}>
+            新規登録
+          </a>
         </div>
       </div>
     </div>
