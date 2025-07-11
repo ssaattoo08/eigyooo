@@ -19,12 +19,12 @@ export default function Home() {
         }}>
           process
         </div>
-        <div style={{ fontSize: 13, color: '#555', marginBottom: 18, lineHeight: 1.5 }}>
+        <div style={{ fontSize: 11, color: '#555', marginBottom: 12, lineHeight: 1.4 }}>
           営業プロセスをただ残すだけ<br />自分だけの記録管理サービス
         </div>
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-          <a href="/login" style={{ padding: '8px 20px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc', boxShadow: '0 2px 4px #eee' }}>ログイン</a>
-          <a href="/register" style={{ padding: '8px 20px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc', boxShadow: '0 2px 4px #eee' }}>
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+          <a href="/login" style={{ padding: '6px 14px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 11, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc', boxShadow: '0 2px 4px #eee' }}>ログイン</a>
+          <a href="/register" style={{ padding: '6px 14px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 11, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc', boxShadow: '0 2px 4px #eee' }}>
             新規登録
           </a>
         </div>
