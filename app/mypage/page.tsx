@@ -131,6 +131,13 @@ export default function MyPage() {
   const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
+  // 日付ごとの投稿数を集計
+  const postCountByDate: { [date: string]: number } = {};
+  posts.forEach(p => {
+    const ymd = p.created_at.slice(0, 10);
+    postCountByDate[ymd] = (postCountByDate[ymd] || 0) + 1;
+  });
+
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
       {/* ナビゲーションバー */}
@@ -225,7 +232,7 @@ export default function MyPage() {
                     {week.map((date, di) => {
                       const inMonth = isSameMonth(date, currentMonth);
                       const ymd = format(date, 'yyyy-MM-dd');
-                      const posted = postDates.includes(ymd);
+                      const postCount = postCountByDate[ymd] || 0;
                       const holiday = hd.isHoliday(date);
                       const isSun = date.getDay() === 0;
                       const isSat = date.getDay() === 6;
@@ -236,7 +243,12 @@ export default function MyPage() {
                       const isOtherMonth = !inMonth;
                       return (
                         <td key={di} style={{ border: '1px solid #e3e8f0', verticalAlign: 'top', background: isOtherMonth ? '#fafbfc' : '#fff', color, padding: 0, height: 40, textAlign: 'center', fontSize: isOtherMonth ? 11 : 16, opacity: isOtherMonth ? 0.5 : 1 }}>
-                          <div style={{ fontWeight: posted ? 'bold' : 'normal', marginTop: 2, fontSize: isOtherMonth ? 11 : 16 }}>{date.getDate()}</div>
+                          {/* 投稿数に応じた記号を日付の上に表示 */}
+                          {postCount === 1 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>◯</div>}
+                          {postCount === 2 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>◎</div>}
+                          {postCount === 3 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>☆</div>}
+                          {postCount >= 4 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>卍</div>}
+                          <div style={{ fontWeight: postCount > 0 ? 'bold' : 'normal', marginTop: 2, fontSize: isOtherMonth ? 11 : 16 }}>{date.getDate()}</div>
                           {holiday && (
                             <div style={{ color: '#e00', fontSize: 9, marginTop: 2 }}>{holiday[0].name}</div>
                           )}
