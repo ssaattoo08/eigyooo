@@ -294,16 +294,17 @@ export default function MyPage() {
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
                   {/* 投稿者名は非表示にする */}
                   <span style={{ display: 'none' }}>{post.nickname_ja}</span>
-                  <span style={{ fontSize: 9, color: '#888', marginLeft: 0 }}>
+                  <span style={{ fontSize: 9, color: '#888', marginLeft: 0, display: 'inline-flex', alignItems: 'center' }}>
                     {new Date(post.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                     {' '}
                     {new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    {/* シックな白黒SVG鍵アイコン */}
+                    {/* おしゃれな鍵マークSVGを投稿日の右横にインライン表示 */}
                     {post.visibility === 'private' && (
-                      <span style={{ marginLeft: 6, verticalAlign: 'middle' }} title="自分だけの投稿">
+                      <span style={{ marginLeft: 8, display: 'inline-flex', verticalAlign: 'middle' }} title="自分だけの投稿">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <rect x="3" y="11" width="18" height="10" rx="2" fill="#fff" stroke="#222"/>
-                          <path d="M7 11V7a5 5 0 0 1 10 0v4" fill="none" stroke="#222"/>
+                          <rect x="5" y="11" width="14" height="8" rx="2" fill="#fff" stroke="#222"/>
+                          <path d="M8 11V7a4 4 0 1 1 8 0v4" fill="none" stroke="#222"/>
+                          <circle cx="12" cy="15" r="1" fill="#222"/>
                         </svg>
                       </span>
                     )}
