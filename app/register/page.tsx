@@ -36,6 +36,14 @@ export default function RegisterPage() {
           nickname_ja: nickname.ja,
         },
       ]);
+      // profilesテーブルにもinsert
+      await supabase.from("profiles").insert([
+        {
+          id: user.id,
+          nickname: nickname.en,
+          created_at: new Date().toISOString(),
+        },
+      ]);
       // localStorageにニックネーム保存（任意）
       localStorage.setItem("nickname_en", nickname.en);
       localStorage.setItem("nickname_ja", nickname.ja);

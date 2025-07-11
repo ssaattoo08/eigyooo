@@ -23,6 +23,18 @@ export default function LoginPage() {
       return;
     }
     // ログイン成功時はタイムラインへ
+    // プロフィール取得
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("nickname")
+        .eq("id", user.id)
+        .single();
+      if (profile) {
+        localStorage.setItem("nickname_en", profile.nickname);
+      }
+    }
     router.push("/calendar");
   };
 
