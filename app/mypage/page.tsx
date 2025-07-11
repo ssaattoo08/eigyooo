@@ -106,33 +106,12 @@ export default function MyPage() {
   };
 
   // アイコンのダミー（イニシャル）
-  const getInitialIcon = (nickname: string) => {
-    return (
-      <div style={{
-        width: 36, height: 36, borderRadius: "50%", background: "#111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: 16, marginRight: 0 }}>
-        {nickname ? nickname[0] : "?"}
-      </div>
-    );
-  };
+  // アイコン表示は不要になったため、何も返さない
+  const getInitialIcon = (nickname: string) => null;
 
   // アイコン表示
-  const renderIcon = () => {
-    return iconUrl ? (
-      <img
-        src={iconUrl}
-        alt="icon"
-        style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", marginRight: 0, cursor: "pointer", border: '1px solid #ccc' }}
-        onClick={handleIconClick}
-      />
-    ) : (
-      <div
-        style={{ width: 36, height: 36, borderRadius: "50%", background: "#111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: 16, marginRight: 0, cursor: "pointer" }}
-        onClick={handleIconClick}
-      >
-        {nickname ? nickname[0] : "?"}
-      </div>
-    );
-  };
+  // アイコン表示は不要になったため、何も返さない
+  const renderIcon = () => null;
 
   // カレンダー生成（カレンダーページと同じテーブル型・祝日色分け・月送りUI）
   const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
@@ -218,15 +197,8 @@ export default function MyPage() {
         </div>
         <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 12, margin: '0 auto 16px auto', maxWidth: 520, textAlign: 'center', minHeight: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
-            {renderIcon()}
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
-            <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname || "ニックネーム反映中..."}</span>
+            {/* アイコン画像・イニシャルは非表示 */}
+            <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111' }}>{nickname || "ニックネーム反映中..."}</span>
           </div>
           {/* カレンダーをプロフィールボックス内に大きく表示（テーブル型・祝日色分け・月送りUI） */}
           <div style={{ margin: '16px 0 0 0' }}>
@@ -284,7 +256,7 @@ export default function MyPage() {
         ) : (
           posts.map((post: any) => (
             <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 10, padding: 12, margin: '0 auto 18px auto', boxShadow: '0 1px 4px #e3e8f0', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#111', maxWidth: 520 }}>
-              {getInitialIcon(post.nickname_ja)}
+              {/* アイコン画像・イニシャルは非表示 */}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
                   {/* 投稿者名は非表示にする */}
