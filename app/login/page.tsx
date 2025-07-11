@@ -32,7 +32,7 @@ export default function LoginPage() {
         .eq("id", user.id)
         .single();
       if (profile) {
-        localStorage.setItem("nickname_en", profile.nickname);
+        localStorage.setItem("nickname", profile.nickname); // 日本語ニックネームを保存
       }
     }
     router.push("/calendar");

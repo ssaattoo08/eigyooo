@@ -12,10 +12,9 @@ export default function MyPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const nickname_en = localStorage.getItem("nickname_en") || "";
-    const nickname_ja = localStorage.getItem("nickname_ja") || "";
-    setNickname({ en: nickname_en, ja: nickname_ja });
-    fetchMyPosts(nickname_en);
+    const nickname = localStorage.getItem("nickname") || "";
+    setNickname({ en: "", ja: nickname });
+    fetchMyPosts(nickname);
   }, []);
 
   const fetchMyPosts = async (nickname_en: string) => {
