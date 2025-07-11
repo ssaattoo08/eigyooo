@@ -261,7 +261,11 @@ export default function MyPage() {
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
                   {/* 投稿者名は非表示にする */}
                   <span style={{ display: 'none' }}>{post.nickname_ja}</span>
-                  <span style={{ fontSize: 9, color: '#888', marginLeft: 0 }}>{new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  <span style={{ fontSize: 9, color: '#888', marginLeft: 0 }}>
+                    {new Date(post.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                    {' '}
+                    {new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
                 </div>
                 <div style={{ marginBottom: 4, fontSize: 10, color: '#111', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
                 {/* いいね機能を削除 */}
