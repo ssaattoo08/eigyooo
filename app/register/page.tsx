@@ -49,7 +49,6 @@ export default function RegisterPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
       <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, margin: '40px auto', textAlign: 'center' }}>
-        {/* <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>新規登録</div> */}
         <div style={{ fontSize: 11, marginBottom: 18, color: '#888' }}>登録すると自動でニックネームが付与されます</div>
         {registered ? (
           <>
