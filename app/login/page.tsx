@@ -46,7 +46,6 @@ export default function LoginPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
       <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, margin: '40px auto', textAlign: 'center' }}>
-        <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>ログイン</div>
         <div style={{ margin: '10px 0' }}>
           <input
             type="email"
@@ -68,7 +67,7 @@ export default function LoginPage() {
         <button
           onClick={handleLogin}
           disabled={loading}
-          style={{ width: '100%', padding: 8, fontSize: 13, background: '#111', color: '#fff', border: 'none', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
+          style={{ width: '100%', padding: 8, fontSize: 13, background: '#f5f5f5', color: '#111', border: '1px solid #ccc', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
         >
           {loading ? "ログイン中..." : "ログイン"}
         </button>
