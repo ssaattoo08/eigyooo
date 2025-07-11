@@ -5,6 +5,7 @@ import Link from "next/link";
 import Holidays from 'date-holidays';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay } from 'date-fns';
 import { ja } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
 
 interface Comment {
   id: number;
@@ -97,15 +98,18 @@ export default function CalendarPage() {
         {/* ヘッダー */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '32px 0 8px 0' }}>
           <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>◀</button>
-          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 28, letterSpacing: 0 }}>{format(currentMonth, 'M', { locale: ja })}</div>
+          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 28, letterSpacing: 0, minWidth: 120 }}>
+            {format(currentMonth, 'MMMM', { locale: enUS })}
+          </div>
           <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>▶</button>
         </div>
-        <div style={{ textAlign: 'center', fontSize: 15, color: '#888', marginBottom: 8 }}>{format(currentMonth, 'yyyy年', { locale: ja })}</div>
+        {/* 年の表示は削除 */}
+        {/* <div style={{ textAlign: 'center', fontSize: 15, color: '#888', marginBottom: 8 }}>{format(currentMonth, 'yyyy年', { locale: ja })}</div> */}
         {/* カレンダー本体 */}
         <table style={{ borderCollapse: 'collapse', width: '100%', background: '#fff', boxShadow: '0 2px 8px #eee', fontSize: 18 }}>
           <thead>
             <tr>
-              {["日", "月", "火", "水", "木", "金", "土"].map((w, i) => (
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((w, i) => (
                 <th key={w} style={{ border: '1px solid #e3e8f0', padding: 0, width: '14.2%', height: 36, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold', fontSize: 16, background: '#fafbfc' }}>{w}</th>
               ))}
             </tr>

@@ -6,6 +6,7 @@ import { addMonths, isSunday, isSaturday } from "date-fns";
 import Holidays from 'date-holidays';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth } from 'date-fns';
 import { ja } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
 
 export default function MyPage() {
   const [nickname, setNickname] = useState("");
@@ -229,13 +230,17 @@ export default function MyPage() {
           <div style={{ margin: '16px 0 0 0' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
               <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>◀</button>
-              <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 22, letterSpacing: 0, margin: '0 16px' }}>{format(currentMonth, 'yyyy年M月', { locale: ja })}</div>
+              <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 22, letterSpacing: 0, margin: '0 16px', minWidth: 100 }}>
+                {format(currentMonth, 'MMMM', { locale: enUS })}
+              </div>
               <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>▶</button>
             </div>
+            {/* 年の表示は削除 */}
+            {/* <div style={{ textAlign: 'center', fontSize: 15, color: '#888', marginBottom: 8 }}>{format(currentMonth, 'yyyy年', { locale: ja })}</div> */}
             <table style={{ borderCollapse: 'collapse', width: '100%', background: '#fff', boxShadow: '0 2px 8px #eee', fontSize: 16 }}>
               <thead>
                 <tr>
-                  {["日", "月", "火", "水", "木", "金", "土"].map((w, i) => (
+                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((w, i) => (
                     <th key={w} style={{ border: '1px solid #e3e8f0', padding: 0, width: '14.2%', height: 32, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold', fontSize: 14, background: '#fafbfc' }}>{w}</th>
                   ))}
                 </tr>
