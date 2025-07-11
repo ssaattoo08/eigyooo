@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 import { addMonths, isSunday, isSaturday } from "date-fns";
@@ -9,6 +9,9 @@ import { ja } from 'date-fns/locale';
 
 export default function MyPage() {
   const [nickname, setNickname] = useState("");
+  const [iconUrl, setIconUrl] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState("");
@@ -17,9 +20,22 @@ export default function MyPage() {
   const hd = new Holidays('JP');
 
   useEffect(() => {
-    const nickname = localStorage.getItem("nickname") || "";
-    setNickname(nickname);
-    fetchMyPosts(nickname);
+    const fetchProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      setUserId(user.id);
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("icon_url, nickname")
+        .eq("id", user.id)
+        .single();
+      if (profile) {
+        setIconUrl(profile.icon_url || null);
+        setNickname(profile.nickname || "");
+        fetchMyPosts(profile.nickname || "");
+      }
+    };
+    fetchProfile();
   }, [currentMonth]);
 
   const fetchMyPosts = async (nickname_ja: string) => {
@@ -63,11 +79,53 @@ export default function MyPage() {
     }
   };
 
+  // プロフィール画像アップロード
+  const handleIconClick = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  };
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !userId) return;
+    const fileExt = file.name.split('.').pop();
+    const filePath = `profile-icons/${userId}.${fileExt}`;
+    // Storageにアップロード
+    const { error: uploadError } = await supabase.storage.from('profile-icons').upload(filePath, file, { upsert: true });
+    if (uploadError) {
+      alert('アップロードに失敗しました');
+      return;
+    }
+    // 公開URL取得
+    const { data } = supabase.storage.from('profile-icons').getPublicUrl(filePath);
+    const publicUrl = data.publicUrl;
+    // profilesテーブルに保存
+    await supabase.from('profiles').update({ icon_url: publicUrl }).eq('id', userId);
+    setIconUrl(publicUrl);
+  };
+
   // アイコンのダミー（イニシャル）
   const getInitialIcon = (nickname: string) => {
     return (
       <div style={{
         width: 36, height: 36, borderRadius: "50%", background: "#111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: 16, marginRight: 0 }}>
+        {nickname ? nickname[0] : "?"}
+      </div>
+    );
+  };
+
+  // アイコン表示
+  const renderIcon = () => {
+    return iconUrl ? (
+      <img
+        src={iconUrl}
+        alt="icon"
+        style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", marginRight: 0, cursor: "pointer", border: '1px solid #ccc' }}
+        onClick={handleIconClick}
+      />
+    ) : (
+      <div
+        style={{ width: 36, height: 36, borderRadius: "50%", background: "#111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: 16, marginRight: 0, cursor: "pointer" }}
+        onClick={handleIconClick}
+      >
         {nickname ? nickname[0] : "?"}
       </div>
     );
@@ -157,7 +215,14 @@ export default function MyPage() {
         </div>
         <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 12, margin: '0 auto 16px auto', maxWidth: 520, textAlign: 'center', minHeight: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
-            {getInitialIcon(nickname)}
+            {renderIcon()}
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname || "ニックネーム反映中..."}</span>
           </div>
           {/* カレンダーをプロフィールボックス内に大きく表示（テーブル型・祝日色分け・月送りUI） */}
