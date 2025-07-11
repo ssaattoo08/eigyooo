@@ -64,6 +64,16 @@ export default function CalendarPage() {
   }
   const postDates = posts.map(p => p.created_at.slice(0, 10));
 
+  // 日付ごとの投稿者ニックネーム一覧を集計
+  const nicknamesByDate: { [date: string]: string[] } = {};
+  posts.forEach(p => {
+    const ymd = p.created_at.slice(0, 10);
+    if (!nicknamesByDate[ymd]) nicknamesByDate[ymd] = [];
+    if (p.nickname_ja && !nicknamesByDate[ymd].includes(p.nickname_ja)) {
+      nicknamesByDate[ymd].push(p.nickname_ja);
+    }
+  });
+
   // 前月・翌月の月
   const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
@@ -121,6 +131,7 @@ export default function CalendarPage() {
                   const inMonth = isSameMonth(date, currentMonth);
                   const ymd = format(date, 'yyyy-MM-dd');
                   const posted = postDates.includes(ymd);
+                  const nicknames = nicknamesByDate[ymd] || [];
                   const holiday = hd.isHoliday(date);
                   const isSun = date.getDay() === 0;
                   const isSat = date.getDay() === 6;
@@ -132,6 +143,12 @@ export default function CalendarPage() {
                   return (
                     <td key={di} style={{ border: '1px solid #e3e8f0', verticalAlign: 'top', background: isOtherMonth ? '#fafbfc' : '#fff', color, padding: 0, height: 64, textAlign: 'center', fontSize: isOtherMonth ? 13 : 18, opacity: isOtherMonth ? 0.5 : 1 }}>
                       <div style={{ fontWeight: posted ? 'bold' : 'normal', marginTop: 4, fontSize: isOtherMonth ? 13 : 18 }}>{date.getDate()}</div>
+                      {/* 投稿があった場合、その日の投稿者ニックネーム一覧を小さく表示 */}
+                      {nicknames.length > 0 && (
+                        <div style={{ fontSize: 10, color: '#888', marginTop: 2, wordBreak: 'break-all', lineHeight: 1.2 }}>
+                          {nicknames.join(', ')}
+                        </div>
+                      )}
                       {holiday && (
                         <div style={{ color: '#e00', fontSize: 11, marginTop: 2 }}>{holiday[0].name}</div>
                       )}
