@@ -3,28 +3,28 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ textAlign: 'center', padding: 32, width: '100%' }}>
+      <div style={{ textAlign: 'center', padding: 20, width: '100%' }}>
         <div style={{
           display: 'inline-block',
           background: '#111',
           color: '#fff',
           borderRadius: 16,
-          padding: '10px 36px',
-          fontSize: 32,
+          padding: '8px 24px',
+          fontSize: 24,
           fontWeight: 'bold',
-          marginBottom: 18,
+          marginBottom: 12,
           letterSpacing: 0,
           fontStretch: 'condensed',
           boxShadow: '0 2px 8px #eee',
         }}>
           process
         </div>
-        <div style={{ fontSize: 15, color: '#555', marginBottom: 28 }}>
+        <div style={{ fontSize: 13, color: '#555', marginBottom: 18, lineHeight: 1.5 }}>
           営業プロセスをただ残すだけ<br />自分だけの記録管理サービス
         </div>
-        <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
-          <a href="/login" style={{ padding: '10px 32px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 15, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc' }}>ログイン</a>
-          <a href="/register" style={{ padding: '10px 32px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 15, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc' }}>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+          <a href="/login" style={{ padding: '8px 20px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc', boxShadow: '0 2px 4px #eee' }}>ログイン</a>
+          <a href="/register" style={{ padding: '8px 20px', background: '#f5f5f5', color: '#111', borderRadius: 8, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #ccc', boxShadow: '0 2px 4px #eee' }}>
             新規登録
           </a>
         </div>
