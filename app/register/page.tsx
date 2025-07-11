@@ -9,14 +9,13 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [registered, setRegistered] = useState(false);
   const router = useRouter();
 
   const handleRegister = async () => {
     setLoading(true);
     setError("");
-    // ニックネーム自動生成
     const nickname = generateNickname();
-    // Supabase Authでユーザー作成
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -26,43 +25,10 @@ export default function RegisterPage() {
       setLoading(false);
       return;
     }
-    // サインアップ直後、セッションがnullなら明示的にサインイン
-    if (!data.session) {
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) {
-        setError("自動ログインに失敗しました: " + signInError.message);
-        setLoading(false);
-        return;
-      }
-    }
-    // 念のため最新セッションを取得
-    await supabase.auth.getSession();
-    // usersテーブルにニックネーム保存
-    const user = data.user;
-    if (user) {
-      await supabase.from("users").insert([
-        {
-          id: user.id,
-          nickname_en: nickname.en,
-          nickname_ja: nickname.ja,
-        },
-      ]);
-      // profilesテーブルにもinsert（nickname: カタカナ, username: ローマ字）
-      await supabase.from("profiles").insert([
-        {
-          id: user.id,
-          nickname: nickname.ja, // カタカナ
-          username: nickname.en.toLowerCase(), // ローマ字（小文字）
-          created_at: new Date().toISOString(),
-        },
-      ]);
-      // localStorageにニックネーム保存（任意）
-      localStorage.setItem("nickname_en", nickname.en);
-      localStorage.setItem("nickname_ja", nickname.ja);
-    }
+    // サインアップ成功時は認証メール送信メッセージを表示
+    setRegistered(true);
     setLoading(false);
-    // 登録後、タイムラインへ遷移
-    router.push("/calendar");
+    // users/profilesへのinsertはメール認証後の初回ログイン時に行う設計も可
   };
 
   return (
@@ -70,32 +36,44 @@ export default function RegisterPage() {
       <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, margin: '40px auto', textAlign: 'center' }}>
         <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>新規登録</div>
         <div style={{ fontSize: 11, marginBottom: 18, color: '#888' }}>登録すると自動でニックネームが付与されます</div>
-        <div style={{ margin: '10px 0' }}>
-          <input
-            type="email"
-            placeholder="メールアドレス"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
-            autoComplete="email"
-          />
-          <input
-            type="password"
-            placeholder="パスワード"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
-            autoComplete="new-password"
-          />
-        </div>
-        <button
-          onClick={handleRegister}
-          disabled={loading}
-          style={{ width: '100%', padding: 8, fontSize: 13, background: '#111', color: '#fff', border: 'none', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
-        >
-          {loading ? "登録中..." : "新規登録"}
-        </button>
-        {error && <div style={{ color: "red", marginTop: 8, fontSize: 11 }}>{error}</div>}
+        {registered ? (
+          <>
+            <div style={{ color: '#111', fontSize: 14, margin: '24px 0 16px 0', lineHeight: 1.7 }}>
+              ご登録のメールアドレス宛に認証メールを送信しました。<br />
+              メール内のリンクをクリックして認証を完了してください。
+            </div>
+            <a href="/login" style={{ display: 'inline-block', marginTop: 12, padding: '8px 24px', background: '#111', color: '#fff', borderRadius: 6, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: 'none' }}>ログイン画面へ</a>
+          </>
+        ) : (
+          <>
+            <div style={{ margin: '10px 0' }}>
+              <input
+                type="email"
+                placeholder="メールアドレス"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
+                autoComplete="email"
+              />
+              <input
+                type="password"
+                placeholder="パスワード"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
+                autoComplete="new-password"
+              />
+            </div>
+            <button
+              onClick={handleRegister}
+              disabled={loading}
+              style={{ width: '100%', padding: 8, fontSize: 13, background: '#111', color: '#fff', border: 'none', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
+            >
+              {loading ? "登録中..." : "新規登録"}
+            </button>
+            {error && <div style={{ color: "red", marginTop: 8, fontSize: 11 }}>{error}</div>}
+          </>
+        )}
       </div>
     </div>
   );
