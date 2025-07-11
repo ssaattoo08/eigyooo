@@ -18,6 +18,7 @@ export default function MyPage() {
   const [content, setContent] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [visibility, setVisibility] = useState<'public' | 'private'>('public');
   const hd = new Holidays('JP');
 
   useEffect(() => {
@@ -63,6 +64,7 @@ export default function MyPage() {
         .insert({
           nickname_ja: nickname,
           content: content,
+          visibility: visibility, // 追加
         })
         .select()
         .single();
@@ -174,6 +176,27 @@ export default function MyPage() {
             style={{ width: "100%", fontSize: 12, padding: 6, borderRadius: 8, border: 'none', background: '#fff', resize: 'none', marginBottom: 6, color: '#111', boxSizing: 'border-box', outline: 'none', fontWeight: 500, minHeight: 30, height: 30, lineHeight: 1.3 }}
             placeholder="今日の頑張りや気持ちをつぶやこう！"
           />
+          {/* 公開範囲選択ラジオボタン */}
+          <div style={{ display: 'flex', gap: 16, marginBottom: 6, fontSize: 12 }}>
+            <label>
+              <input
+                type="radio"
+                name="visibility"
+                value="public"
+                checked={visibility === 'public'}
+                onChange={() => setVisibility('public')}
+              /> 全員に公開
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="visibility"
+                value="private"
+                checked={visibility === 'private'}
+                onChange={() => setVisibility('private')}
+              /> 自分だけ
+            </label>
+          </div>
           <button
             onClick={handlePost}
             disabled={loading}
