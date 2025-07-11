@@ -88,7 +88,7 @@ export default function MyPage() {
     const file = e.target.files?.[0];
     if (!file || !userId) return;
     const fileExt = file.name.split('.').pop();
-    const filePath = `profile-icons/${userId}.${fileExt}`;
+    const filePath = `${userId}.${fileExt}`;
     // Storageにアップロード
     const { error: uploadError } = await supabase.storage.from('profile-icons').upload(filePath, file, { upsert: true });
     if (uploadError) {
