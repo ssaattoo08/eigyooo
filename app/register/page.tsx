@@ -25,6 +25,16 @@ export default function RegisterPage() {
       setLoading(false);
       return;
     }
+    // サインアップ後、profilesテーブルにニックネームを保存
+    if (data.user) {
+      await supabase.from("profiles").insert({
+        id: data.user.id,
+        nickname: nickname.ja, // 日本語カラム
+        username: email, // 必要に応じて
+        nickname_en: nickname.en, // 英語カラム（profilesテーブルにあれば）
+        nickname_ja: nickname.ja, // 日本語カラム（profilesテーブルにあれば）
+      });
+    }
     // サインアップ成功時は認証メール送信メッセージを表示
     setRegistered(true);
     setLoading(false);
