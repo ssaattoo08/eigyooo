@@ -145,7 +145,15 @@ export default function CalendarPage() {
                       <div style={{ fontWeight: posted ? 'bold' : 'normal', marginTop: 4, fontSize: isOtherMonth ? 13 : 18 }}>{date.getDate()}</div>
                       {/* 投稿があった場合、その日の投稿者ニックネーム一覧を小さく表示 */}
                       {nicknames.length > 0 && (
-                        <div style={{ fontSize: 10, color: '#888', marginTop: 2, wordBreak: 'break-all', lineHeight: 1.2 }}>
+                        <div style={{
+                          fontSize: 10,
+                          color: '#888',
+                          marginTop: 2,
+                          wordBreak: 'break-all',
+                          lineHeight: 1.2,
+                          maxHeight: 24,
+                          overflowY: 'auto',
+                        }}>
                           {nicknames.join(', ')}
                         </div>
                       )}
