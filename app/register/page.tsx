@@ -27,13 +27,18 @@ export default function RegisterPage() {
     }
     // サインアップ後、profilesテーブルにニックネームを保存
     if (data.user) {
-      await supabase.from("profiles").insert({
+      const { error: insertError } = await supabase.from("profiles").insert({
         id: data.user.id,
         nickname: nickname.ja, // 日本語カラム
         username: email, // 必要に応じて
         nickname_en: nickname.en, // 英語カラム（profilesテーブルにあれば）
         nickname_ja: nickname.ja, // 日本語カラム（profilesテーブルにあれば）
       });
+      if (insertError) {
+        setError("profilesテーブルへのINSERT失敗: " + insertError.message);
+        setLoading(false);
+        return;
+      }
     }
     // サインアップ成功時は認証メール送信メッセージを表示
     setRegistered(true);
