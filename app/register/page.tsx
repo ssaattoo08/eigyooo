@@ -36,11 +36,12 @@ export default function RegisterPage() {
           nickname_ja: nickname.ja,
         },
       ]);
-      // profilesテーブルにもinsert
+      // profilesテーブルにもinsert（nickname: カタカナ, username: ローマ字）
       await supabase.from("profiles").insert([
         {
           id: user.id,
-          nickname: nickname.en,
+          nickname: nickname.ja, // カタカナ
+          username: nickname.en.toLowerCase(), // ローマ字（小文字）
           created_at: new Date().toISOString(),
         },
       ]);
