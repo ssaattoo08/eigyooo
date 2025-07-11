@@ -8,7 +8,7 @@ import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth }
 import { ja } from 'date-fns/locale';
 
 export default function MyPage() {
-  const [nickname, setNickname] = useState({ en: "", ja: "" });
+  const [nickname, setNickname] = useState("");
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState("");
@@ -18,16 +18,16 @@ export default function MyPage() {
 
   useEffect(() => {
     const nickname = localStorage.getItem("nickname") || "";
-    setNickname({ en: "", ja: nickname });
+    setNickname(nickname);
     fetchMyPosts(nickname);
   }, [currentMonth]);
 
-  const fetchMyPosts = async (nickname_en: string) => {
-    if (!nickname_en) return;
+  const fetchMyPosts = async (nickname_ja: string) => {
+    if (!nickname_ja) return;
     const { data } = await supabase
       .from("posts")
       .select("*")
-      .eq("nickname_en", nickname_en)
+      .eq("nickname_ja", nickname_ja)
       .order("created_at", { ascending: false });
     setPosts(data || []);
     setLoading(false);
@@ -44,8 +44,7 @@ export default function MyPage() {
       const { data, error } = await supabase
         .from("posts")
         .insert({
-          nickname_en: nickname.en,
-          nickname_ja: nickname.ja,
+          nickname_ja: nickname,
           content: content,
         })
         .select()
@@ -55,7 +54,7 @@ export default function MyPage() {
         throw error;
       }
       setContent("");
-      fetchMyPosts(nickname.en);
+      fetchMyPosts(nickname);
     } catch (err) {
       console.error("Error posting:", err);
       setError("投稿に失敗しました。");
@@ -157,8 +156,8 @@ export default function MyPage() {
         </div>
         <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 12, margin: '0 auto 16px auto', maxWidth: 520, textAlign: 'center', minHeight: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
-            {getInitialIcon(nickname.ja)}
-            <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname.ja || "ニックネーム反映中..."}</span>
+            {getInitialIcon(nickname)}
+            <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname || "ニックネーム反映中..."}</span>
           </div>
           {/* カレンダーをプロフィールボックス内に大きく表示（テーブル型・祝日色分け・月送りUI） */}
           <div style={{ margin: '16px 0 0 0' }}>
