@@ -37,6 +37,8 @@ export default function RegisterPage() {
         setLoading(false);
         return;
       }
+      // 生成したニックネームをlocalStorageにも即保存
+      localStorage.setItem("nickname", nickname.ja);
     }
     // サインアップ成功時は認証メール送信メッセージを表示
     setRegistered(true);

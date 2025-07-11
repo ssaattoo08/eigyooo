@@ -171,7 +171,7 @@ export default function MyPage() {
         <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #e3e8f0', padding: 12, margin: '0 auto 16px auto', maxWidth: 520, textAlign: 'center', minHeight: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
             {getInitialIcon(nickname.ja)}
-            <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname.ja}</span>
+            <span style={{ fontWeight: 'bold', fontSize: 13, color: '#111', marginLeft: 8 }}>{nickname.ja || "ニックネーム反映中..."}</span>
           </div>
           {/* カレンダーをプロフィールボックス内に小さく表示 */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, margin: '8px 0 0 0', transform: 'scale(0.85)', transformOrigin: 'top center' }}>
