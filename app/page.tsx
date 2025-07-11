@@ -4,9 +4,20 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ textAlign: 'center', padding: 20, width: '100%' }}>
-        {/* ロゴ画像の表示（中央揃え） */}
-        <div style={{ textAlign: 'center', padding: 20 }}>
-          <img src="/logo-process-horizontal.png" alt="process logo" style={{ maxWidth: 300, height: 'auto' }} />
+        <div style={{
+          display: 'inline-block',
+          background: '#111',
+          color: '#fff',
+          borderRadius: 16,
+          padding: '8px 24px',
+          fontSize: 24,
+          fontWeight: 'bold',
+          marginBottom: 12,
+          letterSpacing: 0,
+          fontStretch: 'condensed',
+          boxShadow: '0 2px 8px #eee',
+        }}>
+          process
         </div>
         <div style={{ fontSize: 11, color: '#555', marginBottom: 12, lineHeight: 1.4 }}>
           毎日、営業プロセスを記録していこう<br />

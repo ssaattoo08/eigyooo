@@ -145,10 +145,21 @@ export default function MyPage() {
       {/* ナビゲーションバー */}
       <nav style={{ background: '#fff', borderBottom: '1px solid #e3e8f0', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
-          {/* ロゴ画像の表示（中央揃え） */}
-          <div style={{ textAlign: 'center', padding: 0 }}>
-            <img src="/logo-process-horizontal.png" alt="process logo" style={{ maxWidth: 120, height: 'auto', verticalAlign: 'middle' }} />
-          </div>
+          <div style={{
+            display: 'inline-block',
+            background: '#111',
+            color: '#fff',
+            borderRadius: 16,
+            padding: '6px 18px',
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginBottom: 0,
+            letterSpacing: 0,
+            fontStretch: 'condensed',
+            boxShadow: '0 2px 8px #eee',
+            textDecoration: 'none',
+            cursor: 'default',
+          }}>process</div>
           <div style={{ display: 'flex', gap: 18 }}>
             <Link href="/calendar" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Calendar</Link>
             <Link href="/mypage" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>MyPage</Link>
