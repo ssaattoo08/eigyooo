@@ -89,6 +89,7 @@ export default function MyPage() {
     if (!file || !userId) return;
     const fileExt = file.name.split('.').pop();
     const filePath = `${userId}.${fileExt}`;
+    console.log('upload filePath:', filePath); // デバッグ用
     // Storageにアップロード
     const { error: uploadError } = await supabase.storage.from('profile-icons').upload(filePath, file, { upsert: true });
     if (uploadError) {
@@ -96,6 +97,7 @@ export default function MyPage() {
       return;
     }
     // 公開URL取得
+    console.log('getPublicUrl filePath:', filePath); // デバッグ用
     const { data } = supabase.storage.from('profile-icons').getPublicUrl(filePath);
     const publicUrl = data.publicUrl;
     // profilesテーブルに保存
