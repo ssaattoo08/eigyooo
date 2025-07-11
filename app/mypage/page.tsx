@@ -285,11 +285,7 @@ export default function MyPage() {
                   <span style={{ fontSize: 9, color: '#888', marginLeft: 0 }}>{new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
                 <div style={{ marginBottom: 4, fontSize: 10, color: '#111', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ background: '#f6f7fa', color: '#111', border: '1px solid #e3e8f0', borderRadius: 6, padding: '2px 8px', fontWeight: 'bold', fontSize: 9 }}>
-                    いいね {post.likes || 0}
-                  </span>
-                </div>
+                {/* いいね機能を削除 */}
               </div>
             </div>
           ))
