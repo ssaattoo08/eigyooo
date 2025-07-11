@@ -26,6 +26,17 @@ export default function RegisterPage() {
       setLoading(false);
       return;
     }
+    // サインアップ直後、セッションがnullなら明示的にサインイン
+    if (!data.session) {
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) {
+        setError("自動ログインに失敗しました: " + signInError.message);
+        setLoading(false);
+        return;
+      }
+    }
+    // 念のため最新セッションを取得
+    await supabase.auth.getSession();
     // usersテーブルにニックネーム保存
     const user = data.user;
     if (user) {
