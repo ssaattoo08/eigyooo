@@ -4,7 +4,21 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ textAlign: 'center', padding: 32, width: '100%' }}>
-        <div style={{ fontSize: 28, fontWeight: 'bold', marginBottom: 18, letterSpacing: 0, color: '#111', fontStretch: 'condensed' }}>process</div>
+        <div style={{
+          display: 'inline-block',
+          background: '#111',
+          color: '#fff',
+          borderRadius: 16,
+          padding: '10px 36px',
+          fontSize: 32,
+          fontWeight: 'bold',
+          marginBottom: 18,
+          letterSpacing: 0,
+          fontStretch: 'condensed',
+          boxShadow: '0 2px 8px #eee',
+        }}>
+          process
+        </div>
         <div style={{ fontSize: 15, color: '#555', marginBottom: 28 }}>
           営業プロセスをただ残すだけ<br />自分だけの記録管理サービス
         </div>
