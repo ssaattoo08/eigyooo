@@ -49,7 +49,7 @@ export default function RegisterPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
       <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, margin: '40px auto', textAlign: 'center' }}>
-        <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>新規登録</div>
+        {/* <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>新規登録</div> */}
         <div style={{ fontSize: 11, marginBottom: 18, color: '#888' }}>登録すると自動でニックネームが付与されます</div>
         {registered ? (
           <>
@@ -59,7 +59,7 @@ export default function RegisterPage() {
             </div>
             <a href="/login" style={{ display: 'inline-block', marginTop: 12, padding: '8px 24px', background: '#111', color: '#fff', borderRadius: 6, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: 'none' }}>ログイン画面へ</a>
           </>
-        ) : (
+        ) :
           <>
             <div style={{ margin: '10px 0' }}>
               <input
@@ -82,7 +82,7 @@ export default function RegisterPage() {
             <button
               onClick={handleRegister}
               disabled={loading}
-              style={{ width: '100%', padding: 8, fontSize: 13, background: '#111', color: '#fff', border: 'none', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
+              style={{ width: '100%', padding: 8, fontSize: 13, background: '#f5f5f5', color: '#111', border: '1px solid #ccc', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
             >
               {loading ? "登録中..." : "新規登録"}
             </button>
