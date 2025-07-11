@@ -243,15 +243,13 @@ export default function MyPage() {
                       const isOtherMonth = !inMonth;
                       return (
                         <td key={di} style={{ border: '1px solid #e3e8f0', verticalAlign: 'top', background: isOtherMonth ? '#fafbfc' : '#fff', color, padding: 0, height: 40, textAlign: 'center', fontSize: isOtherMonth ? 11 : 16, opacity: isOtherMonth ? 0.5 : 1 }}>
-                          <div style={{ fontWeight: postCount > 0 ? 'bold' : 'normal', marginTop: 2, fontSize: isOtherMonth ? 11 : 16 }}>{date.getDate()}</div>
+                          <div style={{ fontWeight: postCount > 0 ? 'bold' : 'normal', marginTop: 2, fontSize: isOtherMonth ? 11 : 16, color: holiday ? '#e00' : color }}>{date.getDate()}</div>
                           {/* 投稿数に応じた記号を日付の下に表示 */}
                           {postCount === 1 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>◯</div>}
                           {postCount === 2 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>◎</div>}
                           {postCount === 3 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>☆</div>}
                           {postCount >= 4 && <div style={{ fontSize: 13, color: '#888', marginTop: 2 }}>卍</div>}
-                          {holiday && (
-                            <div style={{ color: '#e00', fontSize: 9, marginTop: 2 }}>{holiday[0].name}</div>
-                          )}
+                          {/* 祝日名の表示は削除 */}
                         </td>
                       );
                     })}

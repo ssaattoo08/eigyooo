@@ -142,7 +142,7 @@ export default function CalendarPage() {
                   const isOtherMonth = !inMonth;
                   return (
                     <td key={di} style={{ border: '1px solid #e3e8f0', verticalAlign: 'top', background: isOtherMonth ? '#fafbfc' : '#fff', color, padding: 0, height: 64, textAlign: 'center', fontSize: isOtherMonth ? 13 : 18, opacity: isOtherMonth ? 0.5 : 1 }}>
-                      <div style={{ fontWeight: posted ? 'bold' : 'normal', marginTop: 4, fontSize: isOtherMonth ? 13 : 18 }}>{date.getDate()}</div>
+                      <div style={{ fontWeight: posted ? 'bold' : 'normal', marginTop: 4, fontSize: isOtherMonth ? 13 : 18, color: holiday ? '#e00' : color }}>{date.getDate()}</div>
                       {/* 投稿があった場合、その日の投稿者ニックネーム一覧を小さく表示 */}
                       {nicknames.length > 0 && (
                         <div style={{
@@ -157,9 +157,7 @@ export default function CalendarPage() {
                           {nicknames.join(', ')}
                         </div>
                       )}
-                      {holiday && (
-                        <div style={{ color: '#e00', fontSize: 11, marginTop: 2 }}>{holiday[0].name}</div>
-                      )}
+                      {/* 祝日名の表示は削除 */}
                     </td>
                   );
                 })}
