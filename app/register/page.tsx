@@ -25,25 +25,21 @@ export default function RegisterPage() {
       setLoading(false);
       return;
     }
-    // サインアップ後、profilesテーブルにニックネームを保存
     if (data.user) {
       const { error: insertError } = await supabase.from("profiles").insert({
         id: data.user.id,
-        nickname: nickname.ja, // 日本語カラムのみ
-        username: email // 必要に応じて
+        nickname: nickname.ja,
+        username: email
       });
       if (insertError) {
         setError("profilesテーブルへのINSERT失敗: " + insertError.message);
         setLoading(false);
         return;
       }
-      // 生成したニックネームをlocalStorageにも即保存
       localStorage.setItem("nickname", nickname.ja);
     }
-    // サインアップ成功時は認証メール送信メッセージを表示
     setRegistered(true);
     setLoading(false);
-    // users/profilesへのinsertはメール認証後の初回ログイン時に行う設計も可
   };
 
   return (
@@ -58,7 +54,7 @@ export default function RegisterPage() {
             </div>
             <a href="/login" style={{ display: 'inline-block', marginTop: 12, padding: '8px 24px', background: '#111', color: '#fff', borderRadius: 6, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: 'none' }}>ログイン画面へ</a>
           </>
-        ) :
+        ) : (
           <>
             <div style={{ margin: '10px 0' }}>
               <input
