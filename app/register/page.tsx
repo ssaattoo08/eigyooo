@@ -29,10 +29,8 @@ export default function RegisterPage() {
     if (data.user) {
       const { error: insertError } = await supabase.from("profiles").insert({
         id: data.user.id,
-        nickname: nickname.ja, // 日本語カラム
-        username: email, // 必要に応じて
-        nickname_en: nickname.en, // 英語カラム（profilesテーブルにあれば）
-        nickname_ja: nickname.ja, // 日本語カラム（profilesテーブルにあれば）
+        nickname: nickname.ja, // 日本語カラムのみ
+        username: email // 必要に応じて
       });
       if (insertError) {
         setError("profilesテーブルへのINSERT失敗: " + insertError.message);
