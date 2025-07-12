@@ -65,7 +65,12 @@ export default function CalendarPage() {
       (p) =>
         (p.nickname_ja?.trim() ?? '') === nickname.trim() &&
         (typeof p.visibility === 'string' && p.visibility.toLowerCase() === 'public') &&
-        (new Date(p.created_at).toISOString().slice(0, 10) === ymd)
+        (() => {
+          // created_atをJSTに変換して日付比較
+          const date = new Date(p.created_at);
+          date.setHours(date.getHours() + 9);
+          return date.toISOString().slice(0, 10) === ymd;
+        })()
     );
     setModalNickname(nickname);
     setModalPosts(filtered);
