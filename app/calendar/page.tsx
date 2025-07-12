@@ -123,12 +123,14 @@ export default function CalendarPage() {
                 border: '1px solid #e5d3b3',
                 borderRadius: 16,
                 boxShadow: '0 2px 8px #f3e6d6',
-                margin: '0 0 8px 0',
+                margin: '0 auto 8px auto',
                 padding: '10px 10px 6px 10px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 10,
                 minHeight: 36,
+                maxWidth: 520,
+                width: '100%',
               }}>
                 <div style={{
                   minWidth: 60,
