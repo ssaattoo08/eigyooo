@@ -35,19 +35,19 @@ export default function UserPage() {
   if (!profile) return <div style={{ padding: 32 }}>ユーザーが見つかりません</div>;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', color: '#111', maxWidth: 600, margin: '0 auto', padding: 24 }}>
+    <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', maxWidth: 600, margin: '0 auto', padding: 24 }}>
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
-        <div style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 8 }}>{profile.nickname}</div>
-        <div style={{ fontSize: 13, color: '#888' }}>@{profile.username}</div>
+        <div style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 8, color: '#9C7A3A' }}>{profile.nickname}</div>
+        <div style={{ fontSize: 13, color: '#B89B7B' }}>@{profile.username}</div>
       </div>
       <div style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 12 }}>投稿一覧</div>
       {posts.length === 0 ? (
         <div style={{ color: '#bbb', fontSize: 13 }}>まだ投稿がありません。</div>
       ) : (
         posts.map((post: any) => (
-          <div key={post.id} style={{ background: '#fff', border: "1px solid #e3e8f0", borderRadius: 10, padding: 12, marginBottom: 14, boxShadow: '0 1px 4px #e3e8f0', fontSize: 13 }}>
-            <div style={{ color: '#888', fontSize: 11, marginBottom: 4 }}>{new Date(post.created_at).toLocaleString()}</div>
-            <div style={{ color: '#111', fontSize: 14 }}>{post.content}</div>
+          <div key={post.id} style={{ background: '#F5E7CE', border: "1px solid #E5D3B3", borderRadius: 10, padding: 12, marginBottom: 14, boxShadow: '0 1px 4px #eee', fontSize: 13, color: '#9C7A3A' }}>
+            <div style={{ color: '#B89B7B', fontSize: 11, marginBottom: 4 }}>{new Date(post.created_at).toLocaleString()}</div>
+            <div style={{ color: '#9C7A3A', fontSize: 14 }}>{post.content}</div>
           </div>
         ))
       )}
