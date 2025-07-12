@@ -144,9 +144,9 @@ export default function MyPage() {
   });
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', color: '#111' }}>
+    <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A' }}>
       {/* ナビゲーションバー */}
-      <nav style={{ background: '#fff', borderBottom: '1px solid #e3e8f0', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+      <nav style={{ background: '#FDF6EE', borderBottom: '1px solid #E5D3B3', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
           <div style={{
             display: 'inline-block',
@@ -164,8 +164,8 @@ export default function MyPage() {
             cursor: 'default',
           }}>process</div>
           <div style={{ display: 'flex', gap: 18 }}>
-            <Link href="/calendar" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Calendar</Link>
-            <Link href="/mypage" style={{ color: '#111', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>MyPage</Link>
+            <Link href="/calendar" style={{ color: '#9C7A3A', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Calendar</Link>
+            <Link href="/mypage" style={{ color: '#9C7A3A', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>MyPage</Link>
           </div>
         </div>
       </nav>
