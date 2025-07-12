@@ -44,6 +44,13 @@ export default function CalendarPage() {
     fetchPosts();
   }, [currentMonth]);
 
+  useEffect(() => {
+    // デバッグ用: posts配列の中身を出力
+    if (posts.length > 0) {
+      console.log('postsデータ:', posts.map(p => ({ nickname_ja: p.nickname_ja, visibility: p.visibility, content: p.content, created_at: p.created_at })));
+    }
+  }, [posts]);
+
   const fetchPosts = async () => {
     const { data, error } = await supabase
       .from("posts")
@@ -55,7 +62,9 @@ export default function CalendarPage() {
   // モーダル用: 指定ニックネームの全員公開投稿を取得
   const openModal = (nickname: string) => {
     const filtered = posts.filter(
-      (p) => p.nickname_ja === nickname && (p.visibility ?? '') === "public"
+      (p) =>
+        (p.nickname_ja?.trim() ?? '') === nickname.trim() &&
+        (typeof p.visibility === 'string' && p.visibility.toLowerCase() === 'public')
     );
     setModalNickname(nickname);
     setModalPosts(filtered);
