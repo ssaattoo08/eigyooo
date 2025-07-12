@@ -169,9 +169,9 @@ export default function MyPage() {
           </div>
         </div>
       </nav>
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 0 24px 0' }}>
+      <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 0 16px 0' }}>
         {/* 投稿ボックス追加 */}
-        <div style={{ margin: '0 auto 10px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 8, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 36, border: '1px solid #E5D3B3', display: 'block' }}>
+        <div style={{ margin: '0 auto 4px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 5, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 30, border: '1px solid #E5D3B3', display: 'block' }}>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
@@ -228,7 +228,7 @@ export default function MyPage() {
           </button>
           {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
         </div>
-        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 10, margin: '0 auto 10px auto', maxWidth: 520, textAlign: 'center', minHeight: 36, border: '1px solid #E5D3B3' }}>
+        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 6, margin: '0 auto 4px auto', maxWidth: 520, textAlign: 'center', minHeight: 30, border: '1px solid #E5D3B3' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
             {/* アイコン画像・イニシャルは非表示 */}
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#9C7A3A' }}>{nickname || "ニックネーム反映中..."}</span>
@@ -289,7 +289,7 @@ export default function MyPage() {
           <div style={{ color: "#B89B7B", textAlign: 'center', marginTop: 32, fontSize: 12 }}>まだ投稿がありません。</div>
         ) : (
           posts.map((post: any) => (
-            <div key={post.id} style={{ background: '#fff', border: "1px solid #E5D3B3", borderRadius: 10, padding: 10, margin: '0 auto 12px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 520 }}>
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #E5D3B3", borderRadius: 10, padding: 6, margin: '0 auto 6px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 520 }}>
               {/* アイコン画像・イニシャルは非表示 */}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
