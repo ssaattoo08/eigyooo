@@ -6,8 +6,8 @@ export default function Home() {
       <div style={{ textAlign: 'center', padding: 20, width: '100%' }}>
         <div style={{
           display: 'inline-block',
-          background: '#111',
-          color: '#fff',
+          background: '#F5E7CE',
+          color: '#9C7A3A',
           borderRadius: 16,
           padding: '8px 24px',
           fontSize: 24,

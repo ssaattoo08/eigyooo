@@ -82,8 +82,8 @@ export default function CalendarPage() {
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
           <div style={{
             display: 'inline-block',
-            background: '#111',
-            color: '#fff',
+            background: '#F5E7CE',
+            color: '#9C7A3A',
             borderRadius: 16,
             padding: '6px 18px',
             fontSize: 18,
