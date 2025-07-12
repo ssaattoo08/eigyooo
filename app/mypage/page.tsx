@@ -147,7 +147,7 @@ export default function MyPage() {
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A' }}>
       {/* ナビゲーションバー */}
       <nav style={{ background: '#FDF6EE', borderBottom: '1px solid #E5D3B3', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 500, justifyContent: 'space-between', padding: '0 16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 400, justifyContent: 'space-between', padding: '0 16px' }}>
           <div style={{
             display: 'inline-block',
             background: '#F5E7CE',
@@ -169,9 +169,9 @@ export default function MyPage() {
           </div>
         </div>
       </nav>
-      <div style={{ maxWidth: 500, margin: '0 auto', padding: '0 0 32px 0' }}>
+      <div style={{ maxWidth: 400, margin: '0 auto', padding: '0 0 32px 0' }}>
         {/* 投稿ボックス追加 */}
-        <div style={{ margin: '0 auto 16px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 10, maxWidth: 460, position: 'relative', overflow: 'hidden', minHeight: 40, border: '1px solid #E5D3B3', display: 'block' }}>
+        <div style={{ margin: '0 auto 16px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 10, maxWidth: 360, position: 'relative', overflow: 'hidden', minHeight: 40, border: '1px solid #E5D3B3', display: 'block' }}>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
@@ -228,7 +228,7 @@ export default function MyPage() {
           </button>
           {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
         </div>
-        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 12, margin: '0 auto 16px auto', maxWidth: 460, textAlign: 'center', minHeight: 40, border: '1px solid #E5D3B3' }}>
+        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 12, margin: '0 auto 16px auto', maxWidth: 360, textAlign: 'center', minHeight: 40, border: '1px solid #E5D3B3' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
             {/* アイコン画像・イニシャルは非表示 */}
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#9C7A3A' }}>{nickname || "ニックネーム反映中..."}</span>
@@ -289,7 +289,7 @@ export default function MyPage() {
           <div style={{ color: "#B89B7B", textAlign: 'center', marginTop: 32, fontSize: 12 }}>まだ投稿がありません。</div>
         ) : (
           posts.map((post: any) => (
-            <div key={post.id} style={{ background: '#fff', border: "1px solid #E5D3B3", borderRadius: 10, padding: 12, margin: '0 auto 18px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 460 }}>
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #E5D3B3", borderRadius: 10, padding: 12, margin: '0 auto 18px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 360 }}>
               {/* アイコン画像・イニシャルは非表示 */}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>

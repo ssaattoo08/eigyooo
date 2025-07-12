@@ -79,7 +79,7 @@ export default function CalendarPage() {
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', padding: 0 }}>
       {/* ナビゲーションバー */}
       <nav style={{ background: '#FDF6EE', borderBottom: '1px solid #E5D3B3', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 500, justifyContent: 'space-between', padding: '0 16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 400, justifyContent: 'space-between', padding: '0 16px' }}>
           <div style={{
             display: 'inline-block',
             background: '#F5E7CE',
@@ -101,7 +101,7 @@ export default function CalendarPage() {
           </div>
         </div>
       </nav>
-      <div style={{ maxWidth: 500, margin: '0 auto', padding: 0 }}>
+      <div style={{ maxWidth: 400, margin: '0 auto', padding: 0 }}>
         {/* ヘッダー */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '32px 0 8px 0' }}>
           <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>◀</button>
@@ -124,24 +124,24 @@ export default function CalendarPage() {
                 borderRadius: 16,
                 boxShadow: '0 2px 8px #f3e6d6',
                 margin: '0 0 16px 0',
-                padding: '14px 14px 10px 14px',
+                padding: '12px 12px 8px 12px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 14,
-                minHeight: 48,
+                gap: 12,
+                minHeight: 44,
               }}>
                 <div style={{
-                  minWidth: 80,
+                  minWidth: 70,
                   textAlign: 'center',
                   color: '#7c5c2e',
                   fontWeight: 'bold',
-                  fontSize: 18,
+                  fontSize: 16,
                   letterSpacing: 1,
                 }}>
                   {format(date, 'yyyy/MM/dd')}<br />
-                  <span style={{ fontSize: 12, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
+                  <span style={{ fontSize: 11, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
                 </div>
-                <div style={{ flex: 1, fontSize: 13, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
+                <div style={{ flex: 1, fontSize: 12, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
                   {nicknames.length > 0 ? (
                     <span>{nicknames.join(', ')}</span>
                   ) : (
