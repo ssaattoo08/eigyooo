@@ -59,12 +59,13 @@ export default function CalendarPage() {
     if (!error) setPosts(data || []);
   };
 
-  // モーダル用: 指定ニックネームの全員公開投稿を取得
-  const openModal = (nickname: string) => {
+  // モーダル用: 指定ニックネーム・日付の全員公開投稿を取得
+  const openModal = (nickname: string, ymd: string) => {
     const filtered = posts.filter(
       (p) =>
         (p.nickname_ja?.trim() ?? '') === nickname.trim() &&
-        (typeof p.visibility === 'string' && p.visibility.toLowerCase() === 'public')
+        (typeof p.visibility === 'string' && p.visibility.toLowerCase() === 'public') &&
+        (new Date(p.created_at).toISOString().slice(0, 10) === ymd)
     );
     setModalNickname(nickname);
     setModalPosts(filtered);
@@ -183,7 +184,7 @@ export default function CalendarPage() {
                               color: '#B89B7B',
                               marginRight: 6
                             }}
-                            onClick={() => openModal(n)}
+                            onClick={() => openModal(n, ymd)}
                           >
                             {n}
                           </span>
