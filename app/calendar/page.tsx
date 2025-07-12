@@ -110,42 +110,41 @@ export default function CalendarPage() {
           </div>
           <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
         </div>
-        {/* リスト型カレンダー本体 */}
-        <div style={{ margin: '0 0 32px 0' }}>
-          {days.map(date => {
+        {/* フラットな横並びリスト型カレンダー本体 */}
+        <div style={{ margin: '0 0 32px 0', background: '#fdf8f2', border: 'none', borderRadius: 0, overflow: 'hidden', maxWidth: 600, boxShadow: 'none' }}>
+          {days.map((date, idx) => {
             const ymd = format(date, 'yyyy-MM-dd');
             const nicknames = nicknamesByDate[ymd] || [];
             const dayName = format(date, 'EEE', { locale: enUS }).toUpperCase();
             const isToday = format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
             return (
               <div key={ymd} style={{
-                background: isToday ? '#f7e9d2' : '#fdf6ee',
-                border: '1px solid #e5d3b3',
-                borderRadius: 16,
-                boxShadow: '0 2px 8px #f3e6d6',
-                margin: '0 0 16px 0',
-                padding: '18px 18px 12px 18px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 18,
                 minHeight: 56,
+                padding: '0 24px',
+                background: isToday ? '#f7e9d2' : '#fdf8f2',
+                borderBottom: idx !== days.length - 1 ? '1px solid #e5d3b3' : 'none',
+                fontSize: 16,
+                width: '100%',
               }}>
                 <div style={{
-                  minWidth: 90,
-                  textAlign: 'center',
-                  color: '#7c5c2e',
+                  flex: '0 0 140px',
+                  textAlign: 'left',
+                  color: '#8b6b3a',
                   fontWeight: 'bold',
-                  fontSize: 20,
+                  fontSize: 24,
                   letterSpacing: 1,
+                  lineHeight: 1.1,
                 }}>
-                  {format(date, 'yyyy/MM/dd')}<br />
-                  <span style={{ fontSize: 13, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
+                  {format(date, 'yyyy/MM/dd')}
+                  <div style={{ fontSize: 18, color: '#c8b9a6', fontWeight: 'bold', marginTop: 4 }}>{dayName}</div>
                 </div>
-                <div style={{ flex: 1, fontSize: 14, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
+                <div style={{ flex: 1, textAlign: 'right', fontSize: 20, color: nicknames.length > 0 ? '#8b6b3a' : '#c8b9a6', fontWeight: nicknames.length > 0 ? 500 : 400 }}>
                   {nicknames.length > 0 ? (
                     <span>{nicknames.join(', ')}</span>
                   ) : (
-                    <span style={{ color: '#c8b9a6', fontWeight: 400 }}>投稿なし</span>
+                    <span>投稿なし</span>
                   )}
                 </div>
               </div>
