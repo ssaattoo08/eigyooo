@@ -107,7 +107,7 @@ export default function CalendarPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', padding: 0, fontSize: 12 }}>
       {/* ナビゲーションバー */}
-      <nav style={{ background: '#FDF6EE', borderBottom: '1px solid #E5D3B3', padding: '0 0', height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8, fontSize: 13 }}>
+      <nav style={{ background: '#FDF6EE', padding: '0 0', height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8, fontSize: 13 }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
           <div style={{
             display: 'inline-block',

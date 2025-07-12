@@ -146,7 +146,7 @@ export default function MyPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A' }}>
       {/* ナビゲーションバー */}
-      <nav style={{ background: '#FDF6EE', borderBottom: '1px solid #E5D3B3', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+      <nav style={{ background: '#FDF6EE', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
           <div style={{
             display: 'inline-block',
