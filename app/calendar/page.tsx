@@ -6,6 +6,7 @@ import Holidays from 'date-holidays';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale';
+import React from "react";
 
 interface Comment {
   id: number;
@@ -34,6 +35,9 @@ function getWeekDates(date: Date) {
 export default function CalendarPage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalNickname, setModalNickname] = useState<string | null>(null);
+  const [modalPosts, setModalPosts] = useState<any[]>([]);
   const hd = new Holidays('JP');
 
   useEffect(() => {
@@ -46,6 +50,21 @@ export default function CalendarPage() {
       .select("*")
       .order("created_at", { ascending: false });
     if (!error) setPosts(data || []);
+  };
+
+  // モーダル用: 指定ニックネームの全員公開投稿を取得
+  const openModal = (nickname: string) => {
+    const filtered = posts.filter(
+      (p) => p.nickname_ja === nickname && p.visibility === "public"
+    );
+    setModalNickname(nickname);
+    setModalPosts(filtered);
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+    setModalNickname(null);
+    setModalPosts([]);
   };
 
   // 日付ごとの投稿者ニックネーム一覧をJST基準で集計
@@ -145,7 +164,24 @@ export default function CalendarPage() {
                 </div>
                 <div style={{ flex: 1, fontSize: 10, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
                   {nicknames.length > 0 ? (
-                    <span>{nicknames.join(', ')}</span>
+                    <span>
+                      {nicknames.map((n, i) => (
+                        <React.Fragment key={n}>
+                          <span
+                            style={{
+                              cursor: 'pointer',
+                              textDecoration: 'underline',
+                              color: '#B89B7B',
+                              marginRight: 6
+                            }}
+                            onClick={() => openModal(n)}
+                          >
+                            {n}
+                          </span>
+                          {i < nicknames.length - 1 && ', '}
+                        </React.Fragment>
+                      ))}
+                    </span>
                   ) : (
                     null
                   )}
@@ -155,6 +191,77 @@ export default function CalendarPage() {
           })}
         </div>
       </div>
+      {/* モーダル */}
+      {modalOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0,0,0,0.18)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+          onClick={closeModal}
+        >
+          <div
+            style={{
+              background: '#fff',
+              borderRadius: 16,
+              boxShadow: '0 4px 24px #b89b7b33',
+              padding: 24,
+              minWidth: 320,
+              maxWidth: 420,
+              width: '90vw',
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              position: 'relative',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={closeModal}
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 16,
+                background: 'none',
+                border: 'none',
+                fontSize: 18,
+                color: '#b89b7b',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+              }}
+              aria-label="閉じる"
+            >×</button>
+            <div style={{ fontWeight: 'bold', fontSize: 15, color: '#9C7A3A', marginBottom: 12 }}>{modalNickname}さんの公開投稿</div>
+            {modalPosts.length === 0 ? (
+              <div style={{ color: '#B89B7B', fontSize: 12 }}>全員に公開された投稿はありません。</div>
+            ) : (
+              modalPosts.map((p) => (
+                <div key={p.id} style={{
+                  background: '#fdf6ee',
+                  border: '1px solid #e5d3b3',
+                  borderRadius: 10,
+                  padding: 10,
+                  marginBottom: 10,
+                  fontSize: 12,
+                  color: '#9C7A3A',
+                  boxShadow: '0 1px 4px #eee',
+                }}>
+                  <div style={{ fontSize: 11, color: '#B89B7B', marginBottom: 2 }}>
+                    {new Date(p.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                  </div>
+                  <div style={{ whiteSpace: 'pre-line', lineHeight: 1.7 }}>{p.content}</div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
