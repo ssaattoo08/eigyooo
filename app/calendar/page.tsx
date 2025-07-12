@@ -110,9 +110,9 @@ export default function CalendarPage() {
           </div>
           <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
         </div>
-        {/* リスト型カレンダー本体 */}
+        {/* カレンダーリストを昇順（1日→末日が下）で表示 */}
         <div style={{ margin: '0 0 32px 0' }}>
-          {days.map(date => {
+          {[...days].reverse().map((date, idx) => {
             const ymd = format(date, 'yyyy-MM-dd');
             const nicknames = nicknamesByDate[ymd] || [];
             const dayName = format(date, 'EEE', { locale: enUS }).toUpperCase();
