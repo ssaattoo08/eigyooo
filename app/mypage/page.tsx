@@ -136,7 +136,10 @@ export default function MyPage() {
   // 日付ごとの投稿数を集計
   const postCountByDate: { [date: string]: number } = {};
   posts.forEach(p => {
-    const ymd = p.created_at.slice(0, 10);
+    // UTC→JST変換
+    const date = new Date(p.created_at);
+    date.setHours(date.getHours() + 9); // JSTはUTC+9
+    const ymd = date.toISOString().slice(0, 10);
     postCountByDate[ymd] = (postCountByDate[ymd] || 0) + 1;
   });
 
