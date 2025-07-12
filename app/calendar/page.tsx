@@ -110,38 +110,39 @@ export default function CalendarPage() {
           </div>
           <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
         </div>
-        {/* リスト型カレンダー本体 */}
-        <div style={{ margin: '0 0 32px 0' }}>
-          {days.map(date => {
+        {/* やさしい区切りのリスト型カレンダー本体 */}
+        <div style={{ margin: '0 0 32px 0', background: '#fdf6ee', border: '1px solid #e5d3b3', borderRadius: 12, overflow: 'hidden', maxWidth: 600, boxShadow: 'none' }}>
+          {days.map((date, idx) => {
             const ymd = format(date, 'yyyy-MM-dd');
             const nicknames = nicknamesByDate[ymd] || [];
             const dayName = format(date, 'EEE', { locale: enUS }).toUpperCase();
             const isToday = format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+            // 交互に背景色を変える
+            const rowBg = idx % 2 === 0 ? '#fdf6ee' : '#f7e9d2';
             return (
               <div key={ymd} style={{
-                background: isToday ? '#f7e9d2' : '#fdf6ee',
-                border: '1px solid #e5d3b3',
-                borderRadius: 16,
-                boxShadow: '0 2px 8px #f3e6d6',
-                margin: '0 0 16px 0',
-                padding: '18px 18px 12px 18px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 18,
-                minHeight: 56,
+                minHeight: 44,
+                padding: '0 16px',
+                background: isToday ? '#ffecc7' : rowBg,
+                borderTop: idx === 0 ? 'none' : '1px solid #e5d3b3',
+                borderBottom: '1px solid #e5d3b3',
+                fontSize: 15,
+                transition: 'background 0.2s',
               }}>
                 <div style={{
-                  minWidth: 90,
+                  minWidth: 98,
                   textAlign: 'center',
                   color: '#7c5c2e',
                   fontWeight: 'bold',
-                  fontSize: 20,
+                  fontSize: 15,
                   letterSpacing: 1,
+                  padding: '8px 0',
                 }}>
-                  {format(date, 'yyyy/MM/dd')}<br />
-                  <span style={{ fontSize: 13, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
+                  {format(date, 'yyyy/MM/dd')} <span style={{ fontSize: 12, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
                 </div>
-                <div style={{ flex: 1, fontSize: 14, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
+                <div style={{ flex: 1, fontSize: 14, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5, padding: '8px 0', minHeight: 24 }}>
                   {nicknames.length > 0 ? (
                     <span>{nicknames.join(', ')}</span>
                   ) : (
