@@ -55,7 +55,7 @@ export default function CalendarPage() {
   // モーダル用: 指定ニックネームの全員公開投稿を取得
   const openModal = (nickname: string) => {
     const filtered = posts.filter(
-      (p) => p.nickname_ja === nickname && p.visibility === "public"
+      (p) => p.nickname_ja === nickname && (p.visibility ?? '') === "public"
     );
     setModalNickname(nickname);
     setModalPosts(filtered);
