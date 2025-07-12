@@ -110,9 +110,9 @@ export default function CalendarPage() {
           </div>
           <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
         </div>
-        {/* カレンダーリストを昇順（1日→末日が下）で表示 */}
+        {/* カレンダーリストを昇順（1日→末日が下）で表示。投稿がない日は空欄。未来の日付は表示しない */}
         <div style={{ margin: '0 0 32px 0' }}>
-          {[...days].reverse().map((date, idx) => {
+          {[...days].reverse().filter(date => date <= new Date()).map((date, idx) => {
             const ymd = format(date, 'yyyy-MM-dd');
             const nicknames = nicknamesByDate[ymd] || [];
             const dayName = format(date, 'EEE', { locale: enUS }).toUpperCase();
@@ -145,7 +145,7 @@ export default function CalendarPage() {
                   {nicknames.length > 0 ? (
                     <span>{nicknames.join(', ')}</span>
                   ) : (
-                    <span style={{ color: '#c8b9a6', fontWeight: 400 }}>投稿なし</span>
+                    null
                   )}
                 </div>
               </div>
