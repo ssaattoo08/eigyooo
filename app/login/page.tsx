@@ -44,15 +44,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', color: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: '#F5E7CE', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ margin: '10px 0' }}>
           <input
             type="email"
             placeholder="メールアドレス"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
+            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #E5D3B3', fontSize: 12, background: '#FCF7F0', color: '#9C7A3A' }}
             autoComplete="email"
           />
           <input
@@ -60,14 +60,14 @@ export default function LoginPage() {
             placeholder="パスワード"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #ccc', fontSize: 12, background: '#fffbe6' }}
+            style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #E5D3B3', fontSize: 12, background: '#FCF7F0', color: '#9C7A3A' }}
             autoComplete="current-password"
           />
         </div>
         <button
           onClick={handleLogin}
           disabled={loading}
-          style={{ width: '100%', padding: 8, fontSize: 13, background: '#f5f5f5', color: '#111', border: '1px solid #ccc', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
+          style={{ width: '100%', padding: 8, fontSize: 13, background: '#F5E7CE', color: '#9C7A3A', border: '1px solid #E5D3B3', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
         >
           {loading ? "ログイン中..." : "ログイン"}
         </button>
