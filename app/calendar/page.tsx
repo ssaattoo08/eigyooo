@@ -48,31 +48,28 @@ export default function CalendarPage() {
     if (!error) setPosts(data || []);
   };
 
-  // カレンダー生成
-  const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
-  const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
-  const days = [];
-  let d = start;
-  while (d <= end) {
-    days.push(new Date(d));
-    d = new Date(d);
-    d.setDate(d.getDate() + 1);
-  }
-  const weeks = [];
-  for (let i = 0; i < days.length; i += 7) {
-    weeks.push(days.slice(i, i + 7));
-  }
-  const postDates = posts.map(p => p.created_at.slice(0, 10));
-
-  // 日付ごとの投稿者ニックネーム一覧を集計
+  // 日付ごとの投稿者ニックネーム一覧をJST基準で集計
   const nicknamesByDate: { [date: string]: string[] } = {};
   posts.forEach(p => {
-    const ymd = p.created_at.slice(0, 10);
+    // UTC→JST変換
+    const date = new Date(p.created_at);
+    date.setHours(date.getHours() + 9);
+    const ymd = date.toISOString().slice(0, 10);
     if (!nicknamesByDate[ymd]) nicknamesByDate[ymd] = [];
     if (p.nickname_ja && !nicknamesByDate[ymd].includes(p.nickname_ja)) {
       nicknamesByDate[ymd].push(p.nickname_ja);
     }
   });
+
+  // 現在の月の日付リストを作成
+  const start = startOfMonth(currentMonth);
+  const end = endOfMonth(currentMonth);
+  const days: Date[] = [];
+  let d = new Date(start);
+  while (d <= end) {
+    days.push(new Date(d));
+    d.setDate(d.getDate() + 1);
+  }
 
   // 前月・翌月の月
   const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
@@ -107,64 +104,54 @@ export default function CalendarPage() {
       <div style={{ maxWidth: 600, margin: '0 auto', padding: 0 }}>
         {/* ヘッダー */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '32px 0 8px 0' }}>
-          <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>◀</button>
-          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 28, letterSpacing: 0, minWidth: 120 }}>
+          <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>◀</button>
+          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 28, letterSpacing: 0, minWidth: 120, color: '#7c5c2e' }}>
             {format(currentMonth, 'MMMM', { locale: enUS })}
           </div>
-          <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>▶</button>
+          <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
         </div>
-        {/* 年の表示は削除 */}
-        {/* <div style={{ textAlign: 'center', fontSize: 15, color: '#888', marginBottom: 8 }}>{format(currentMonth, 'yyyy年', { locale: ja })}</div> */}
-        {/* カレンダー本体 */}
-        <table style={{ borderCollapse: 'collapse', width: '100%', background: '#fff', boxShadow: '0 2px 8px #eee', fontSize: 18 }}>
-          <thead>
-            <tr>
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((w, i) => (
-                <th key={w} style={{ border: '1px solid #e3e8f0', padding: 0, width: '14.2%', height: 36, color: i === 0 ? '#e00' : i === 6 ? '#0070f3' : '#111', fontWeight: 'bold', fontSize: 16, background: '#fafbfc' }}>{w}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {weeks.map((week, wi) => (
-              <tr key={wi}>
-                {week.map((date, di) => {
-                  const inMonth = isSameMonth(date, currentMonth);
-                  const ymd = format(date, 'yyyy-MM-dd');
-                  const posted = postDates.includes(ymd);
-                  const nicknames = nicknamesByDate[ymd] || [];
-                  const holiday = hd.isHoliday(date);
-                  const isSun = date.getDay() === 0;
-                  const isSat = date.getDay() === 6;
-                  let color = '#111';
-                  if (holiday) color = '#e00';
-                  else if (isSun) color = '#e00';
-                  else if (isSat) color = '#0070f3';
-                  const isOtherMonth = !inMonth;
-                  return (
-                    <td key={di} style={{ border: '1px solid #e3e8f0', verticalAlign: 'top', background: isOtherMonth ? '#fafbfc' : '#fff', color, padding: 0, height: 64, textAlign: 'center', fontSize: isOtherMonth ? 13 : 18, opacity: isOtherMonth ? 0.5 : 1 }}>
-                      <div style={{ fontWeight: posted ? 'bold' : 'normal', marginTop: 4, fontSize: isOtherMonth ? 13 : 18, color: holiday ? '#e00' : color }}>{date.getDate()}</div>
-                      {/* 投稿があった場合、その日の投稿者ニックネーム一覧を小さく表示 */}
-                      {nicknames.length > 0 && (
-                        <div style={{
-                          fontSize: 10,
-                          color: '#888',
-                          marginTop: 2,
-                          wordBreak: 'break-all',
-                          lineHeight: 1.2,
-                          maxHeight: 24,
-                          overflowY: 'auto',
-                        }}>
-                          {nicknames.join(', ')}
-                        </div>
-                      )}
-                      {/* 祝日名の表示は削除 */}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {/* リスト型カレンダー本体 */}
+        <div style={{ margin: '0 0 32px 0' }}>
+          {days.map(date => {
+            const ymd = format(date, 'yyyy-MM-dd');
+            const nicknames = nicknamesByDate[ymd] || [];
+            const dayName = format(date, 'EEE', { locale: enUS }).toUpperCase();
+            const isToday = format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+            return (
+              <div key={ymd} style={{
+                background: isToday ? '#f7e9d2' : '#fdf6ee',
+                border: '1px solid #e5d3b3',
+                borderRadius: 16,
+                boxShadow: '0 2px 8px #f3e6d6',
+                margin: '0 0 16px 0',
+                padding: '18px 18px 12px 18px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 18,
+                minHeight: 56,
+              }}>
+                <div style={{
+                  minWidth: 90,
+                  textAlign: 'center',
+                  color: '#7c5c2e',
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                  letterSpacing: 1,
+                }}>
+                  {format(date, 'yyyy/MM/dd')}<br />
+                  <span style={{ fontSize: 13, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
+                </div>
+                <div style={{ flex: 1, fontSize: 14, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
+                  {nicknames.length > 0 ? (
+                    <span>{nicknames.join(', ')}</span>
+                  ) : (
+                    <span style={{ color: '#c8b9a6', fontWeight: 400 }}>投稿なし</span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
