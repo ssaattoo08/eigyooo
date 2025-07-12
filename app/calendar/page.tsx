@@ -132,7 +132,7 @@ export default function CalendarPage() {
       </nav>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: 0 }}>
         {/* ヘッダー */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '24px 0 4px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '18px 0 2px 0' }}>
           <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 16, cursor: 'pointer', color: '#b89b7b' }}>◀</button>
           <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 18, letterSpacing: 0, minWidth: 80, color: '#7c5c2e' }}>
             {format(currentMonth, 'MMMM', { locale: enUS })}
@@ -140,7 +140,7 @@ export default function CalendarPage() {
           <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 16, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
         </div>
         {/* カレンダーリストを昇順（1日→末日が下）で表示。投稿がない日は空欄。未来の日付は表示しない */}
-        <div style={{ margin: '0 0 16px 0' }}>
+        <div style={{ margin: '0 0 8px 0' }}>
           {[...days].reverse().filter(date => date <= new Date()).map((date, idx) => {
             const ymd = format(date, 'yyyy-MM-dd');
             const nicknames = nicknamesByDate[ymd] || [];
@@ -152,12 +152,12 @@ export default function CalendarPage() {
                 border: '1px solid #e5d3b3',
                 borderRadius: 16,
                 boxShadow: '0 2px 8px #f3e6d6',
-                margin: '0 auto 8px auto',
-                padding: '10px 10px 6px 10px',
+                margin: '0 auto 4px auto',
+                padding: '8px 8px 4px 8px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 10,
-                minHeight: 36,
+                gap: 8,
+                minHeight: 32,
                 maxWidth: 520,
                 width: '100%',
               }}>
