@@ -76,17 +76,17 @@ export default function CalendarPage() {
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', padding: 0 }}>
+    <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', padding: 0, fontSize: 12 }}>
       {/* ナビゲーションバー */}
-      <nav style={{ background: '#FDF6EE', borderBottom: '1px solid #E5D3B3', padding: '0 0', height: 54, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+      <nav style={{ background: '#FDF6EE', borderBottom: '1px solid #E5D3B3', padding: '0 0', height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8, fontSize: 13 }}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100%', maxWidth: 600, justifyContent: 'space-between', padding: '0 16px' }}>
           <div style={{
             display: 'inline-block',
             background: '#F5E7CE',
             color: '#9C7A3A',
             borderRadius: 16,
-            padding: '6px 18px',
-            fontSize: 18,
+            padding: '4px 12px',
+            fontSize: 15,
             fontWeight: 'bold',
             marginBottom: 0,
             letterSpacing: 0,
@@ -95,23 +95,23 @@ export default function CalendarPage() {
             textDecoration: 'none',
             cursor: 'default',
           }}>process</div>
-          <div style={{ display: 'flex', gap: 18 }}>
-            <Link href="/calendar" style={{ color: '#9C7A3A', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>Calendar</Link>
-            <Link href="/mypage" style={{ color: '#9C7A3A', fontWeight: 'bold', fontSize: 15, textDecoration: 'none' }}>MyPage</Link>
+          <div style={{ display: 'flex', gap: 12 }}>
+            <Link href="/calendar" style={{ color: '#9C7A3A', fontWeight: 'bold', fontSize: 12, textDecoration: 'none' }}>Calendar</Link>
+            <Link href="/mypage" style={{ color: '#9C7A3A', fontWeight: 'bold', fontSize: 12, textDecoration: 'none' }}>MyPage</Link>
           </div>
         </div>
       </nav>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: 0 }}>
         {/* ヘッダー */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '32px 0 8px 0' }}>
-          <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>◀</button>
-          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 28, letterSpacing: 0, minWidth: 120, color: '#7c5c2e' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '24px 0 4px 0' }}>
+          <button onClick={() => setCurrentMonth(prevMonth)} style={{ background: 'none', border: 'none', fontSize: 16, cursor: 'pointer', color: '#b89b7b' }}>◀</button>
+          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 18, letterSpacing: 0, minWidth: 80, color: '#7c5c2e' }}>
             {format(currentMonth, 'MMMM', { locale: enUS })}
           </div>
-          <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
+          <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 16, cursor: 'pointer', color: '#b89b7b' }}>▶</button>
         </div>
         {/* カレンダーリストを昇順（1日→末日が下）で表示。投稿がない日は空欄。未来の日付は表示しない */}
-        <div style={{ margin: '0 0 32px 0' }}>
+        <div style={{ margin: '0 0 16px 0' }}>
           {[...days].reverse().filter(date => date <= new Date()).map((date, idx) => {
             const ymd = format(date, 'yyyy-MM-dd');
             const nicknames = nicknamesByDate[ymd] || [];
@@ -123,25 +123,25 @@ export default function CalendarPage() {
                 border: '1px solid #e5d3b3',
                 borderRadius: 16,
                 boxShadow: '0 2px 8px #f3e6d6',
-                margin: '0 0 16px 0',
-                padding: '18px 18px 12px 18px',
+                margin: '0 0 8px 0',
+                padding: '10px 10px 6px 10px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 18,
-                minHeight: 56,
+                gap: 10,
+                minHeight: 36,
               }}>
                 <div style={{
-                  minWidth: 90,
+                  minWidth: 60,
                   textAlign: 'center',
                   color: '#7c5c2e',
                   fontWeight: 'bold',
-                  fontSize: 20,
+                  fontSize: 12,
                   letterSpacing: 1,
                 }}>
                   {format(date, 'yyyy/MM/dd')}<br />
-                  <span style={{ fontSize: 13, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
+                  <span style={{ fontSize: 9, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
                 </div>
-                <div style={{ flex: 1, fontSize: 14, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
+                <div style={{ flex: 1, fontSize: 10, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
                   {nicknames.length > 0 ? (
                     <span>{nicknames.join(', ')}</span>
                   ) : (
