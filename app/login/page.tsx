@@ -23,7 +23,7 @@ export default function LoginPage() {
       return;
     }
     // ログイン成功時はタイムラインへ
-    // プロフィール取得
+    // プロフィール取得・作成（一時的なフォールバック処理）
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       const { data: profile } = await supabase
@@ -33,6 +33,18 @@ export default function LoginPage() {
         .single();
       if (profile && profile.nickname) {
         localStorage.setItem("nickname", profile.nickname);
+      } else {
+        // プロフィールが存在しない場合、新規作成（一時的な対応）
+        const { generateNickname } = await import("@/utils/generateNickname");
+        const nickname = generateNickname();
+        const { error: insertError } = await supabase.from("profiles").insert({
+          id: user.id,
+          nickname: nickname.ja,
+          username: user.email
+        });
+        if (!insertError) {
+          localStorage.setItem("nickname", nickname.ja);
+        }
       }
     }
     router.push("/calendar");
