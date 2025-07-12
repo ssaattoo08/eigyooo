@@ -171,7 +171,7 @@ export default function MyPage() {
       </nav>
       <div style={{ maxWidth: 600, margin: '0 auto', padding: '0 0 32px 0' }}>
         {/* 投稿ボックス追加 */}
-        <div style={{ margin: '0 auto 16px auto', background: '#F5E7CE', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 10, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 40, border: '1px solid #E5D3B3', display: 'block' }}>
+        <div style={{ margin: '0 auto 16px auto', background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 10, maxWidth: 520, position: 'relative', overflow: 'hidden', minHeight: 40, border: '1px solid #E5D3B3', display: 'block' }}>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
@@ -228,7 +228,7 @@ export default function MyPage() {
           </button>
           {error && <div style={{ color: "#e00", marginTop: 8, fontSize: 11 }}>{error}</div>}
         </div>
-        <div style={{ background: '#F5E7CE', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 12, margin: '0 auto 16px auto', maxWidth: 520, textAlign: 'center', minHeight: 40 }}>
+        <div style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px #eee', padding: 12, margin: '0 auto 16px auto', maxWidth: 520, textAlign: 'center', minHeight: 40, border: '1px solid #E5D3B3' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 6 }}>
             {/* アイコン画像・イニシャルは非表示 */}
             <span style={{ fontWeight: 'bold', fontSize: 13, color: '#9C7A3A' }}>{nickname || "ニックネーム反映中..."}</span>
@@ -242,7 +242,7 @@ export default function MyPage() {
               </div>
               <button onClick={() => setCurrentMonth(nextMonth)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#B89B7B' }}>▶</button>
             </div>
-            <table style={{ borderCollapse: 'collapse', width: '100%', background: '#FCF7F0', boxShadow: '0 2px 8px #eee', fontSize: 16 }}>
+            <table style={{ borderCollapse: 'collapse', width: '100%', background: '#fff', boxShadow: '0 2px 8px #eee', fontSize: 16 }}>
               <thead>
                 <tr>
                   {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((w, i) => (
@@ -266,7 +266,7 @@ export default function MyPage() {
                       else if (isSat) color = '#7BA6E5';
                       const isOtherMonth = !inMonth;
                       return (
-                        <td key={di} style={{ border: '1px solid #E5D3B3', verticalAlign: 'top', background: isOtherMonth ? '#F5E7CE' : '#FCF7F0', color, padding: 0, height: 40, textAlign: 'center', fontSize: isOtherMonth ? 11 : 16, opacity: isOtherMonth ? 0.5 : 1 }}>
+                        <td key={di} style={{ border: '1px solid #E5D3B3', verticalAlign: 'top', background: isOtherMonth ? '#F5E7CE' : '#fff', color, padding: 0, height: 40, textAlign: 'center', fontSize: isOtherMonth ? 11 : 16, opacity: isOtherMonth ? 0.5 : 1 }}>
                           <div style={{ fontWeight: postCount > 0 ? 'bold' : 'normal', marginTop: 2, fontSize: isOtherMonth ? 11 : 16, color }}>{date.getDate()}</div>
                           {/* 投稿数に応じた記号を日付の下に表示 */}
                           {postCount === 1 && <div style={{ fontSize: 13, color: '#B89B7B', marginTop: 2 }}>◯</div>}
@@ -289,7 +289,7 @@ export default function MyPage() {
           <div style={{ color: "#B89B7B", textAlign: 'center', marginTop: 32, fontSize: 12 }}>まだ投稿がありません。</div>
         ) : (
           posts.map((post: any) => (
-            <div key={post.id} style={{ background: '#F5E7CE', border: "1px solid #E5D3B3", borderRadius: 10, padding: 12, margin: '0 auto 18px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 520 }}>
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #E5D3B3", borderRadius: 10, padding: 12, margin: '0 auto 18px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 520 }}>
               {/* アイコン画像・イニシャルは非表示 */}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
@@ -303,7 +303,7 @@ export default function MyPage() {
                     {post.visibility === 'private' && (
                       <span style={{ marginLeft: 8, display: 'inline-flex', verticalAlign: 'middle' }} title="自分だけの投稿">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9C7A3A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <rect x="5" y="11" width="14" height="8" rx="2" fill="#F5E7CE" stroke="#9C7A3A"/>
+                          <rect x="5" y="11" width="14" height="8" rx="2" fill="#fff" stroke="#9C7A3A"/>
                           <path d="M8 11V7a4 4 0 1 1 8 0v4" fill="none" stroke="#9C7A3A"/>
                           <circle cx="12" cy="15" r="1" fill="#9C7A3A"/>
                         </svg>
