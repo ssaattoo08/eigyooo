@@ -146,6 +146,9 @@ export default function CalendarPage() {
             const nicknames = nicknamesByDate[ymd] || [];
             const dayName = format(date, 'EEE', { locale: enUS }).toUpperCase();
             const isToday = format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+            const isSat = date.getDay() === 6;
+            const isSun = date.getDay() === 0;
+            const isHoliday = hd.isHoliday(date);
             return (
               <div key={ymd} style={{
                 background: isToday ? '#f7e9d2' : '#fdf6ee',
@@ -164,13 +167,13 @@ export default function CalendarPage() {
                 <div style={{
                   minWidth: 60,
                   textAlign: 'center',
-                  color: '#7c5c2e',
+                  color: isHoliday || isSun ? '#E89A9A' : isSat ? '#7BA6E5' : '#7c5c2e',
                   fontWeight: 'bold',
                   fontSize: 12,
                   letterSpacing: 1,
                 }}>
                   {format(date, 'yyyy/MM/dd')}<br />
-                  <span style={{ fontSize: 9, color: '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
+                  <span style={{ fontSize: 9, color: isHoliday || isSun ? '#E89A9A' : isSat ? '#7BA6E5' : '#b89b7b', fontWeight: 'bold' }}>{dayName}</span>
                 </div>
                 <div style={{ flex: 1, fontSize: 10, color: '#7c5c2e', fontWeight: 500, letterSpacing: 0.5 }}>
                   {nicknames.length > 0 ? (
