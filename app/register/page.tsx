@@ -3,6 +3,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { generateNickname } from "@/utils/generateNickname";
 import { useRouter } from "next/navigation";
+import BrandHeader from "../components/BrandHeader";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -32,8 +33,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ background: '#F5E7CE', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <BrandHeader />
+      <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center', border: '1px solid #E5D3B3' }}>
         <div style={{ fontSize: 11, marginBottom: 18, color: '#B89B7B' }}>登録すると自動でニックネームが付与されます</div>
         {registered ? (
           <>
