@@ -25,20 +25,8 @@ export default function RegisterPage() {
       setLoading(false);
       return;
     }
-    if (data.user) {
-      const { error: insertError } = await supabase.from("profiles").insert({
-        id: data.user.id,
-        nickname: nickname.ja,
-        username: email
-      });
-      if (insertError) {
-        // profilesテーブルへのINSERT失敗は正常な動作（メール認証後に自動で作成される）
-        console.warn("profilesテーブルへのINSERT失敗（メール認証後に自動で作成されます）:", insertError.message);
-        // エラー表示せず、メール送信完了画面を表示
-      } else {
-        localStorage.setItem("nickname", nickname.ja);
-      }
-    }
+    // メール認証後にprofilesテーブルが作成されるため、ここでは作成しない
+    // ニックネームは認証完了時に生成される
     setRegistered(true);
     setLoading(false);
   };
