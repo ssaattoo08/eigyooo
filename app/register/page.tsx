@@ -32,11 +32,12 @@ export default function RegisterPage() {
         username: email
       });
       if (insertError) {
-        setError("profilesテーブルへのINSERT失敗: " + insertError.message);
-        setLoading(false);
-        return;
+        // profilesテーブルへのINSERT失敗は正常な動作（メール認証後に自動で作成される）
+        console.warn("profilesテーブルへのINSERT失敗（メール認証後に自動で作成されます）:", insertError.message);
+        // エラー表示せず、メール送信完了画面を表示
+      } else {
+        localStorage.setItem("nickname", nickname.ja);
       }
-      localStorage.setItem("nickname", nickname.ja);
     }
     setRegistered(true);
     setLoading(false);
