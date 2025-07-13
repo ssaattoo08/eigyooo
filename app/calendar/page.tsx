@@ -281,11 +281,35 @@ export default function CalendarPage() {
                   fontSize: 12,
                   color: '#9C7A3A',
                   boxShadow: '0 1px 4px #eee',
+                  position: 'relative',
                 }}>
                   <div style={{ fontSize: 11, color: '#B89B7B', marginBottom: 2 }}>
                     {new Date(p.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                   </div>
                   <div style={{ whiteSpace: 'pre-line', lineHeight: 1.7 }}>{p.content}</div>
+                  {/* いいねUI */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8, justifyContent: 'flex-end' }}>
+                    <button
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: '#E89A9A',
+                        fontSize: 16,
+                        transition: 'color 0.2s',
+                      }}
+                      title="いいね！"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#fff"/>
+                        <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#E89A9A" fillOpacity="0.15"/>
+                      </svg>
+                      <span style={{ fontSize: 12, color: '#B89B7B', marginLeft: 4, fontWeight: 500 }}>12</span>
+                    </button>
+                  </div>
                 </div>
               ))
             )}
