@@ -639,7 +639,7 @@ export default function MyPage() {
                   <div style={{ marginBottom: 4, fontSize: 10, color: '#9C7A3A', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
                 )}
                 {/* いいねUI */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8, justifyContent: 'flex-end' }}>
                   <button
                     style={{
                       background: 'none',
@@ -649,20 +649,20 @@ export default function MyPage() {
                       display: 'flex',
                       alignItems: 'center',
                       color: likeStates[post.id]?.liked ? '#E89A9A' : '#B89B7B',
-                      fontSize: 12,
+                      fontSize: 10,
                       transition: 'color 0.2s',
                       marginRight: 0,
                     }}
                     title={likeStates[post.id]?.liked ? "いいね済み" : "いいね！"}
                     onClick={() => handleLike(post.id)}
                   >
-                    <svg width="16" height="16" viewBox="-2 -2 28 28" fill={likeStates[post.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', verticalAlign: 'middle', padding: 2 }}>
+                    <svg width="14" height="14" viewBox="-2 -2 28 28" fill={likeStates[post.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', verticalAlign: 'middle', padding: 2 }}>
                       <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill={likeStates[post.id]?.liked ? "#E89A9A" : "#fff"}/>
                       <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#E89A9A" fillOpacity="0.15"/>
                     </svg>
                   </button>
                   <span
-                    style={{ fontSize: 12, color: '#B89B7B', fontWeight: 500, cursor: 'pointer', textDecoration: 'underline', userSelect: 'none', lineHeight: 1, display: 'inline-block' }}
+                    style={{ fontSize: 10, color: '#B89B7B', fontWeight: 500, cursor: 'pointer', textDecoration: 'underline', userSelect: 'none', lineHeight: 1, display: 'inline-block' }}
                     onClick={() => handleShowLikeUsers(post.id)}
                     title="いいねしたユーザー一覧を表示"
                   >
