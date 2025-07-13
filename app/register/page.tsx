@@ -35,7 +35,7 @@ export default function RegisterPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <BrandHeader />
-      <div style={{ background: '#fff', borderRadius: 10, boxShadow: '0 2px 12px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center', border: '1px solid #E5D3B3' }}>
+      <div style={{ background: '#fff', borderRadius: 16, boxShadow: '0 2px 8px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center', border: '1px solid #E5D3B3' }}>
         <div style={{ fontSize: 11, marginBottom: 18, color: '#B89B7B' }}>登録すると自動でニックネームが付与されます</div>
         {registered ? (
           <>
@@ -43,7 +43,7 @@ export default function RegisterPage() {
               ご登録のメールアドレス宛に認証メールを送信しました。<br />
               メール内のリンクをクリックして認証を完了してください。
             </div>
-            <a href="/login" style={{ display: 'inline-block', marginTop: 12, padding: '8px 24px', background: '#F5E7CE', color: '#9C7A3A', borderRadius: 6, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #E5D3B3' }}>ログイン画面へ</a>
+            <a href="/login" style={{ display: 'inline-block', marginTop: 12, padding: '8px 24px', background: '#F5E7CE', color: '#9C7A3A', borderRadius: 8, fontSize: 13, textDecoration: 'none', fontWeight: 'bold', border: '1px solid #E5D3B3', boxShadow: '0 2px 4px #eee' }}>ログイン画面へ</a>
           </>
         ) : (
           <>
@@ -53,7 +53,7 @@ export default function RegisterPage() {
                 placeholder="メールアドレス"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #E5D3B3', fontSize: 12, background: '#FCF7F0', color: '#9C7A3A' }}
+                style={{ width: '100%', padding: '8px 14px', marginBottom: 10, borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
                 autoComplete="email"
               />
               <input
@@ -61,14 +61,14 @@ export default function RegisterPage() {
                 placeholder="パスワード"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                style={{ width: '100%', padding: 7, marginBottom: 8, borderRadius: 5, border: '1px solid #E5D3B3', fontSize: 12, background: '#FCF7F0', color: '#9C7A3A' }}
+                style={{ width: '100%', padding: '8px 14px', marginBottom: 10, borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
                 autoComplete="new-password"
               />
             </div>
             <button
               onClick={handleRegister}
               disabled={loading}
-              style={{ width: '100%', padding: 8, fontSize: 13, background: '#F5E7CE', color: '#9C7A3A', border: '1px solid #E5D3B3', borderRadius: 5, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer' }}
+              style={{ width: '100%', padding: '8px 0', fontSize: 13, background: '#F5E7CE', color: '#9C7A3A', border: '1px solid #E5D3B3', borderRadius: 8, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer', boxShadow: '0 2px 4px #eee' }}
             >
               {loading ? "登録中..." : "新規登録"}
             </button>
