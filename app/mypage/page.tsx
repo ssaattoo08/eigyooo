@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 import { addMonths, isSunday, isSaturday } from "date-fns";
@@ -20,6 +20,11 @@ export default function MyPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [visibility, setVisibility] = useState<'public' | 'private'>('public');
+  const [likeStates, setLikeStates] = useState<{ [postId: number]: { count: number; liked: boolean; likeId: string | null } }>({});
+  const [likePopup, setLikePopup] = useState<{ postId: number | null; users: string[] }>({ postId: null, users: [] });
+  const [editingPost, setEditingPost] = useState<{ id: number; content: string; visibility: 'public' | 'private' } | null>(null);
+  const [editContent, setEditContent] = useState("");
+  const [editVisibility, setEditVisibility] = useState<'public' | 'private'>('public');
   const hd = new Holidays('JP');
   const router = useRouter();
 
@@ -61,6 +66,149 @@ export default function MyPage() {
       .order("created_at", { ascending: false });
     setPosts(data || []);
     setLoading(false);
+    
+    // いいね情報を取得
+    if (data && data.length > 0) {
+      fetchLikes(data);
+    }
+  };
+
+  // いいね情報取得
+  const fetchLikes = async (postsData: any[]) => {
+    if (!userId) return;
+    const postIds = postsData.map((p) => p.id);
+    const { data: likesData } = await supabase
+      .from("likes")
+      .select("id, post_id, user_id")
+      .in("post_id", postIds);
+    
+    const state: { [postId: number]: { count: number; liked: boolean; likeId: string | null } } = {};
+    postIds.forEach(pid => {
+      const likes = (likesData || []).filter(l => l.post_id === pid);
+      const myLike = likes.find(l => l.user_id === userId);
+      state[pid] = {
+        count: likes.length,
+        liked: !!myLike,
+        likeId: myLike ? myLike.id : null
+      };
+    });
+    setLikeStates(state);
+  };
+
+  // いいねトグル
+  const handleLike = useCallback(async (postId: number) => {
+    if (!userId) return;
+    const current = likeStates[postId];
+    if (current?.liked) {
+      // 解除
+      if (current.likeId) {
+        await supabase.from("likes").delete().eq("id", current.likeId);
+      }
+    } else {
+      // 追加
+      await supabase.from("likes").insert({ post_id: postId, user_id: userId });
+    }
+    // 再取得
+    const { data: likesData } = await supabase
+      .from("likes")
+      .select("id, post_id, user_id")
+      .eq("post_id", postId);
+    const myLike = (likesData || []).find(l => l.user_id === userId);
+    setLikeStates(prev => ({
+      ...prev,
+      [postId]: {
+        count: (likesData || []).length,
+        liked: !!myLike,
+        likeId: myLike ? myLike.id : null
+      }
+    }));
+  }, [userId, likeStates]);
+
+  // いいねユーザー一覧取得
+  const handleShowLikeUsers = useCallback(async (postId: number) => {
+    const { data: likesData } = await supabase
+      .from("likes")
+      .select("user_id")
+      .eq("post_id", postId);
+    const userIds = (likesData || []).map(l => l.user_id);
+    if (userIds.length === 0) {
+      setLikePopup({ postId, users: [] });
+      return;
+    }
+    const { data: profilesData } = await supabase
+      .from("profiles")
+      .select("nickname")
+      .in("id", userIds);
+    const users = (profilesData || []).map(p => p.nickname);
+    setLikePopup({ postId, users });
+  }, []);
+
+  const handleCloseLikePopup = () => setLikePopup({ postId: null, users: [] });
+
+  // 投稿編集開始
+  const handleStartEdit = (post: any) => {
+    setEditingPost({ id: post.id, content: post.content, visibility: post.visibility });
+    setEditContent(post.content);
+    setEditVisibility(post.visibility);
+  };
+
+  // 投稿編集キャンセル
+  const handleCancelEdit = () => {
+    setEditingPost(null);
+    setEditContent("");
+    setEditVisibility('public');
+  };
+
+  // 投稿編集保存
+  const handleSaveEdit = async () => {
+    if (!editingPost || !editContent.trim()) {
+      setError("投稿内容を入力してください。");
+      return;
+    }
+    setError(null);
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("posts")
+        .update({
+          content: editContent,
+          visibility: editVisibility,
+        })
+        .eq("id", editingPost.id);
+
+      if (error) {
+        throw error;
+      }
+      handleCancelEdit();
+      fetchMyPosts(nickname);
+    } catch (err) {
+      console.error("Error updating post:", err);
+      setError("投稿の更新に失敗しました。");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 投稿削除
+  const handleDeletePost = async (postId: number) => {
+    if (!confirm("この投稿を削除しますか？")) return;
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from("posts")
+        .delete()
+        .eq("id", postId);
+
+      if (error) {
+        throw error;
+      }
+      fetchMyPosts(nickname);
+    } catch (err) {
+      console.error("Error deleting post:", err);
+      setError("投稿の削除に失敗しました。");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePost = async () => {
@@ -323,13 +471,194 @@ export default function MyPage() {
                     )}
                   </span>
                 </div>
-                <div style={{ marginBottom: 4, fontSize: 10, color: '#9C7A3A', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
-                {/* いいね機能を削除 */}
+                {editingPost?.id === post.id ? (
+                  // 編集モード
+                  <div style={{ marginBottom: 4 }}>
+                    <textarea
+                      value={editContent}
+                      onChange={e => setEditContent(e.target.value)}
+                      rows={3}
+                      style={{ width: "100%", fontSize: 10, padding: 6, borderRadius: 8, border: '1px solid #E5D3B3', background: '#FCF7F0', resize: 'none', color: '#9C7A3A', boxSizing: 'border-box', outline: 'none', fontWeight: 500, lineHeight: 1.3 }}
+                    />
+                    <div style={{ display: 'flex', gap: 8, marginTop: 6, fontSize: 10 }}>
+                      <label style={{ color: '#9C7A3A' }}>
+                        <input
+                          type="radio"
+                          name={`edit-visibility-${post.id}`}
+                          value="public"
+                          checked={editVisibility === 'public'}
+                          onChange={() => setEditVisibility('public')}
+                        /> 全員に公開
+                      </label>
+                      <label style={{ color: '#9C7A3A' }}>
+                        <input
+                          type="radio"
+                          name={`edit-visibility-${post.id}`}
+                          value="private"
+                          checked={editVisibility === 'private'}
+                          onChange={() => setEditVisibility('private')}
+                        /> 自分だけ
+                      </label>
+                    </div>
+                    <div style={{ display: 'flex', gap: 4, marginTop: 6 }}>
+                      <button
+                        onClick={handleSaveEdit}
+                        disabled={loading}
+                        style={{
+                          padding: '2px 8px',
+                          background: '#B89B7B',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: 4,
+                          fontSize: 9,
+                          fontWeight: 'bold',
+                          cursor: loading ? 'not-allowed' : 'pointer',
+                        }}
+                      >
+                        {loading ? "..." : "保存"}
+                      </button>
+                      <button
+                        onClick={handleCancelEdit}
+                        style={{
+                          padding: '2px 8px',
+                          background: '#F5E7CE',
+                          color: '#9C7A3A',
+                          border: '1px solid #E5D3B3',
+                          borderRadius: 4,
+                          fontSize: 9,
+                          fontWeight: 'bold',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        キャンセル
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  // 通常表示
+                  <div style={{ marginBottom: 4, fontSize: 10, color: '#9C7A3A', whiteSpace: 'pre-line', lineHeight: 1.7 }}>{post.content}</div>
+                )}
+                {/* いいねUI */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8, justifyContent: 'space-between' }}>
+                  {/* 編集・削除ボタン */}
+                  <div style={{ display: 'flex', gap: 2 }}>
+                    <button
+                      onClick={() => handleStartEdit(post)}
+                      style={{
+                        padding: '2px 6px',
+                        background: '#F5E7CE',
+                        color: '#9C7A3A',
+                        border: '1px solid #E5D3B3',
+                        borderRadius: 4,
+                        fontSize: 9,
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      編集
+                    </button>
+                    <button
+                      onClick={() => handleDeletePost(post.id)}
+                      style={{
+                        padding: '2px 6px',
+                        background: '#F5E7CE',
+                        color: '#E89A9A',
+                        border: '1px solid #E5D3B3',
+                        borderRadius: 4,
+                        fontSize: 9,
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      削除
+                    </button>
+                  </div>
+                  {/* いいねボタン */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <button
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: likeStates[post.id]?.liked ? '#E89A9A' : '#B89B7B',
+                        fontSize: 16,
+                        transition: 'color 0.2s',
+                      }}
+                      title={likeStates[post.id]?.liked ? "いいね済み" : "いいね！"}
+                      onClick={() => handleLike(post.id)}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill={likeStates[post.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill={likeStates[post.id]?.liked ? "#E89A9A" : "#fff"}/>
+                        <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#E89A9A" fillOpacity="0.15"/>
+                      </svg>
+                    </button>
+                    <span
+                      style={{ fontSize: 12, color: '#B89B7B', marginLeft: 2, fontWeight: 500, cursor: 'pointer', textDecoration: 'underline', userSelect: 'none' }}
+                      onClick={() => handleShowLikeUsers(post.id)}
+                      title="いいねしたユーザー一覧を表示"
+                    >
+                      {likeStates[post.id]?.count ?? 0}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           ))
         )}
       </div>
+      {/* いいねユーザーポップアップ */}
+      {likePopup.postId !== null && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.10)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={handleCloseLikePopup}
+        >
+          <div
+            style={{
+              background: '#fff',
+              borderRadius: 12,
+              boxShadow: '0 2px 12px #eee',
+              padding: 20,
+              minWidth: 180,
+              maxWidth: 260,
+              width: '90vw',
+              maxHeight: '60vh',
+              overflowY: 'auto',
+              position: 'relative',
+              textAlign: 'center',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ fontWeight: 'bold', fontSize: 13, color: '#9C7A3A', marginBottom: 10 }}>いいねした人</div>
+            {likePopup.users.length === 0 ? (
+              <div style={{ color: '#B89B7B', fontSize: 12 }}>まだ誰もいいねしていません</div>
+            ) : (
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {likePopup.users.map((n, i) => (
+                  <li key={i} style={{ fontSize: 13, color: '#9C7A3A', padding: '2px 0' }}>{n}</li>
+                ))}
+              </ul>
+            )}
+            <button
+              onClick={handleCloseLikePopup}
+              style={{ marginTop: 14, padding: '4px 18px', background: '#F5E7CE', color: '#9C7A3A', borderRadius: 8, fontSize: 12, border: '1px solid #E5D3B3', fontWeight: 'bold', cursor: 'pointer' }}
+            >閉じる</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
