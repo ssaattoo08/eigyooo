@@ -514,10 +514,10 @@ export default function MyPage() {
                     }}
                     aria-label="メニュー"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B89B7B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="5" r="1.5" fill="#B89B7B" />
-                      <circle cx="12" cy="12" r="1.5" fill="#B89B7B" />
-                      <circle cx="12" cy="19" r="1.5" fill="#B89B7B" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B89B7B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="5" r="1.2" fill="#B89B7B" />
+                      <circle cx="12" cy="12" r="1.2" fill="#B89B7B" />
+                      <circle cx="12" cy="19" r="1.2" fill="#B89B7B" />
                     </svg>
                   </button>
                   {/* メニュー本体 */}
@@ -543,7 +543,7 @@ export default function MyPage() {
                           background: 'none',
                           border: 'none',
                           color: '#9C7A3A',
-                          fontWeight: 'bold',
+                          fontWeight: 'normal',
                           fontSize: 12,
                           padding: '8px 16px',
                           textAlign: 'left',
@@ -559,7 +559,7 @@ export default function MyPage() {
                           background: 'none',
                           border: 'none',
                           color: '#E89A9A',
-                          fontWeight: 'bold',
+                          fontWeight: 'normal',
                           fontSize: 12,
                           padding: '8px 16px',
                           textAlign: 'left',
