@@ -35,11 +35,11 @@ export default function RegisterPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <BrandHeader />
-      <div style={{ background: '#fff', borderRadius: 16, boxShadow: '0 2px 8px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center', border: '1px solid #E5D3B3' }}>
-        <div style={{ fontSize: 11, marginBottom: 18, color: '#B89B7B' }}>登録すると自動でニックネームが付与されます</div>
+      <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+        <div style={{ fontSize: 11, marginBottom: 8, color: '#B89B7B', width: '100%', textAlign: 'center' }}>登録すると自動でニックネームが付与されます</div>
         {registered ? (
           <>
-            <div style={{ color: '#9C7A3A', fontSize: 14, margin: '24px 0 16px 0', lineHeight: 1.7 }}>
+            <div style={{ color: '#9C7A3A', fontSize: 14, margin: '24px 0 16px 0', lineHeight: 1.7, width: '100%', textAlign: 'center' }}>
               ご登録のメールアドレス宛に認証メールを送信しました。<br />
               メール内のリンクをクリックして認証を完了してください。
             </div>
@@ -47,32 +47,30 @@ export default function RegisterPage() {
           </>
         ) : (
           <>
-            <div style={{ margin: '10px 0' }}>
-              <input
-                type="email"
-                placeholder="メールアドレス"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                style={{ width: '100%', padding: '8px 14px', marginBottom: 10, borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
-                autoComplete="email"
-              />
-              <input
-                type="password"
-                placeholder="パスワード"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                style={{ width: '100%', padding: '8px 14px', marginBottom: 10, borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
-                autoComplete="new-password"
-              />
-            </div>
+            <input
+              type="email"
+              placeholder="メールアドレス"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              style={{ width: '100%', padding: '8px 14px', borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
+              autoComplete="email"
+            />
+            <input
+              type="password"
+              placeholder="パスワード"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              style={{ width: '100%', padding: '8px 14px', borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
+              autoComplete="new-password"
+            />
             <button
               onClick={handleRegister}
               disabled={loading}
-              style={{ width: '100%', padding: '8px 0', fontSize: 13, background: '#F5E7CE', color: '#9C7A3A', border: '1px solid #E5D3B3', borderRadius: 8, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer', boxShadow: '0 2px 4px #eee' }}
+              style={{ width: '100%', padding: '8px 0', fontSize: 13, background: '#F5E7CE', color: '#9C7A3A', border: '1px solid #E5D3B3', borderRadius: 8, fontWeight: 'bold', maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer', boxShadow: '0 2px 4px #eee' }}
             >
               {loading ? "登録中..." : "新規登録"}
             </button>
-            {error && <div style={{ color: "red", marginTop: 8, fontSize: 11 }}>{error}</div>}
+            {error && <div style={{ color: "red", marginTop: 8, fontSize: 11, width: '100%', textAlign: 'center' }}>{error}</div>}
           </>
         )}
       </div>

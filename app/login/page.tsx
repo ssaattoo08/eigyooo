@@ -54,13 +54,13 @@ export default function LoginPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <BrandHeader />
-      <div style={{ background: '#fff', borderRadius: 16, boxShadow: '0 2px 8px #eee', padding: 20, minWidth: 240, maxWidth: 320, width: '100%', margin: '0 auto', textAlign: 'center', border: '1px solid #E5D3B3' }}>
+      <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
         <input
           type="email"
           placeholder="メールアドレス"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          style={{ width: '100%', padding: '8px 14px', marginBottom: 10, borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
+          style={{ width: '100%', padding: '8px 14px', borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
           autoComplete="email"
         />
         <input
@@ -68,17 +68,17 @@ export default function LoginPage() {
           placeholder="パスワード"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          style={{ width: '100%', padding: '8px 14px', marginBottom: 10, borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
+          style={{ width: '100%', padding: '8px 14px', borderRadius: 8, border: '1px solid #E5D3B3', fontSize: 13, background: '#FCF7F0', color: '#9C7A3A', boxSizing: 'border-box' }}
           autoComplete="current-password"
         />
         <button
           onClick={handleLogin}
           disabled={loading}
-          style={{ width: '100%', padding: '8px 0', fontSize: 13, background: '#F5E7CE', color: '#9C7A3A', border: '1px solid #E5D3B3', borderRadius: 8, fontWeight: 'bold', marginBottom: 6, maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer', boxShadow: '0 2px 4px #eee' }}
+          style={{ width: '100%', padding: '8px 0', fontSize: 13, background: '#F5E7CE', color: '#9C7A3A', border: '1px solid #E5D3B3', borderRadius: 8, fontWeight: 'bold', maxWidth: 320, cursor: loading ? 'not-allowed' : 'pointer', boxShadow: '0 2px 4px #eee' }}
         >
           {loading ? "ログイン中..." : "ログイン"}
         </button>
-        {error && <div style={{ color: "red", marginTop: 8, fontSize: 11 }}>{error}</div>}
+        {error && <div style={{ color: "red", marginTop: 8, fontSize: 11, width: '100%', textAlign: 'center' }}>{error}</div>}
       </div>
     </div>
   );
