@@ -43,6 +43,7 @@ export default function CalendarPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const hd = new Holidays('JP');
   const router = useRouter();
+  const [likePopup, setLikePopup] = useState<{ postId: number | null; users: string[] }>({ postId: null, users: [] });
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -182,6 +183,29 @@ export default function CalendarPage() {
       }
     }));
   }, [userId, likeStates]);
+
+  // いいねユーザー一覧取得
+  const handleShowLikeUsers = useCallback(async (postId: number) => {
+    // likesからuser_id一覧取得
+    const { data: likesData } = await supabase
+      .from("likes")
+      .select("user_id")
+      .eq("post_id", postId);
+    const userIds = (likesData || []).map(l => l.user_id);
+    if (userIds.length === 0) {
+      setLikePopup({ postId, users: [] });
+      return;
+    }
+    // profilesからnickname_ja取得
+    const { data: profilesData } = await supabase
+      .from("profiles")
+      .select("nickname")
+      .in("id", userIds);
+    const users = (profilesData || []).map(p => p.nickname);
+    setLikePopup({ postId, users });
+  }, []);
+
+  const handleCloseLikePopup = () => setLikePopup({ postId: null, users: [] });
 
   return (
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', padding: 0, fontSize: 12 }}>
@@ -370,12 +394,68 @@ export default function CalendarPage() {
                         <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill={likeStates[p.id]?.liked ? "#E89A9A" : "#fff"}/>
                         <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#E89A9A" fillOpacity="0.15"/>
                       </svg>
-                      <span style={{ fontSize: 12, color: '#B89B7B', marginLeft: 4, fontWeight: 500 }}>{likeStates[p.id]?.count ?? 0}</span>
+                      <span
+                        style={{ fontSize: 12, color: '#B89B7B', marginLeft: 4, fontWeight: 500, cursor: 'pointer', textDecoration: 'underline' }}
+                        onClick={() => handleShowLikeUsers(p.id)}
+                        title="いいねしたユーザー一覧を表示"
+                      >
+                        {likeStates[p.id]?.count ?? 0}
+                      </span>
                     </button>
                   </div>
                 </div>
               ))
             )}
+          </div>
+        </div>
+      )}
+      {/* いいねユーザーポップアップ */}
+      {likePopup.postId !== null && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.10)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onClick={handleCloseLikePopup}
+        >
+          <div
+            style={{
+              background: '#fff',
+              borderRadius: 12,
+              boxShadow: '0 2px 12px #eee',
+              padding: 20,
+              minWidth: 180,
+              maxWidth: 260,
+              width: '90vw',
+              maxHeight: '60vh',
+              overflowY: 'auto',
+              position: 'relative',
+              textAlign: 'center',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ fontWeight: 'bold', fontSize: 13, color: '#9C7A3A', marginBottom: 10 }}>いいねした人</div>
+            {likePopup.users.length === 0 ? (
+              <div style={{ color: '#B89B7B', fontSize: 12 }}>まだ誰もいいねしていません</div>
+            ) : (
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {likePopup.users.map((n, i) => (
+                  <li key={i} style={{ fontSize: 13, color: '#9C7A3A', padding: '2px 0' }}>{n}</li>
+                ))}
+              </ul>
+            )}
+            <button
+              onClick={handleCloseLikePopup}
+              style={{ marginTop: 14, padding: '4px 18px', background: '#F5E7CE', color: '#9C7A3A', borderRadius: 8, fontSize: 12, border: '1px solid #E5D3B3', fontWeight: 'bold', cursor: 'pointer' }}
+            >閉じる</button>
           </div>
         </div>
       )}
