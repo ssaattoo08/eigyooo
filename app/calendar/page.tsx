@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 import Holidays from 'date-holidays';
@@ -39,6 +39,8 @@ export default function CalendarPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalNickname, setModalNickname] = useState<string | null>(null);
   const [modalPosts, setModalPosts] = useState<any[]>([]);
+  const [likeStates, setLikeStates] = useState<{ [postId: number]: { count: number; liked: boolean; likeId: string | null } }>({});
+  const [userId, setUserId] = useState<string | null>(null);
   const hd = new Holidays('JP');
   const router = useRouter();
 
@@ -120,6 +122,66 @@ export default function CalendarPage() {
   // 前月・翌月の月
   const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+
+  // モーダルが開いたときにlikes情報を取得
+  useEffect(() => {
+    const fetchLikes = async () => {
+      if (!modalOpen || modalPosts.length === 0) return;
+      // ログインユーザーID取得
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      setUserId(user.id);
+      // 投稿IDリスト
+      const postIds = modalPosts.map((p) => p.id);
+      // いいね数取得
+      const { data: likesData } = await supabase
+        .from("likes")
+        .select("id, post_id, user_id")
+        .in("post_id", postIds);
+      // 集計
+      const state: { [postId: number]: { count: number; liked: boolean; likeId: string | null } } = {};
+      postIds.forEach(pid => {
+        const likes = (likesData || []).filter(l => l.post_id === pid);
+        const myLike = likes.find(l => l.user_id === user.id);
+        state[pid] = {
+          count: likes.length,
+          liked: !!myLike,
+          likeId: myLike ? myLike.id : null
+        };
+      });
+      setLikeStates(state);
+    };
+    fetchLikes();
+  }, [modalOpen, modalPosts]);
+
+  // いいねトグル
+  const handleLike = useCallback(async (postId: number) => {
+    if (!userId) return;
+    const current = likeStates[postId];
+    if (current?.liked) {
+      // 解除
+      if (current.likeId) {
+        await supabase.from("likes").delete().eq("id", current.likeId);
+      }
+    } else {
+      // 追加
+      await supabase.from("likes").insert({ post_id: postId, user_id: userId });
+    }
+    // 再取得
+    const { data: likesData } = await supabase
+      .from("likes")
+      .select("id, post_id, user_id")
+      .eq("post_id", postId);
+    const myLike = (likesData || []).find(l => l.user_id === userId);
+    setLikeStates(prev => ({
+      ...prev,
+      [postId]: {
+        count: (likesData || []).length,
+        liked: !!myLike,
+        likeId: myLike ? myLike.id : null
+      }
+    }));
+  }, [userId, likeStates]);
 
   return (
     <div style={{ minHeight: '100vh', background: '#FDF6EE', color: '#9C7A3A', padding: 0, fontSize: 12 }}>
@@ -297,17 +359,18 @@ export default function CalendarPage() {
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
-                        color: '#E89A9A',
+                        color: likeStates[p.id]?.liked ? '#E89A9A' : '#B89B7B',
                         fontSize: 16,
                         transition: 'color 0.2s',
                       }}
-                      title="いいね！"
+                      title={likeStates[p.id]?.liked ? "いいね済み" : "いいね！"}
+                      onClick={() => handleLike(p.id)}
                     >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#fff"/>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill={likeStates[p.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill={likeStates[p.id]?.liked ? "#E89A9A" : "#fff"}/>
                         <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#E89A9A" fillOpacity="0.15"/>
                       </svg>
-                      <span style={{ fontSize: 12, color: '#B89B7B', marginLeft: 4, fontWeight: 500 }}>12</span>
+                      <span style={{ fontSize: 12, color: '#B89B7B', marginLeft: 4, fontWeight: 500 }}>{likeStates[p.id]?.count ?? 0}</span>
                     </button>
                   </div>
                 </div>
