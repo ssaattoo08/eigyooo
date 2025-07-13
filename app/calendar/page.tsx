@@ -374,7 +374,7 @@ export default function CalendarPage() {
                   </div>
                   <div style={{ whiteSpace: 'pre-line', lineHeight: 1.7 }}>{p.content}</div>
                   {/* いいねUI */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8, justifyContent: 'flex-end' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 8 }}>
                     <button
                       style={{
                         background: 'none',
@@ -384,20 +384,20 @@ export default function CalendarPage() {
                         display: 'flex',
                         alignItems: 'center',
                         color: likeStates[p.id]?.liked ? '#E89A9A' : '#B89B7B',
-                        fontSize: 10,
+                        fontSize: 12,
                         transition: 'color 0.2s',
-                        marginRight: 2,
+                        marginRight: 0,
                       }}
                       title={likeStates[p.id]?.liked ? "いいね済み" : "いいね！"}
                       onClick={e => { e.stopPropagation(); handleLike(p.id); }}
                     >
-                      <svg width="14" height="14" viewBox="-2 -2 28 28" fill={likeStates[p.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', verticalAlign: 'middle', padding: 2 }}>
+                      <svg width="16" height="16" viewBox="-2 -2 28 28" fill={likeStates[p.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', verticalAlign: 'middle', padding: 2 }}>
                         <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill={likeStates[p.id]?.liked ? "#E89A9A" : "#fff"}/>
                         <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#E89A9A" fillOpacity="0.15"/>
                       </svg>
                     </button>
                     <span
-                      style={{ fontSize: 8, color: '#B89B7B', marginLeft: 1, fontWeight: 500, cursor: 'pointer', textDecoration: 'underline', userSelect: 'none', lineHeight: 1 }}
+                      style={{ fontSize: 12, color: '#B89B7B', fontWeight: 500, cursor: 'pointer', textDecoration: 'underline', userSelect: 'none', lineHeight: 1, display: 'inline-block' }}
                       onClick={e => { e.stopPropagation(); handleShowLikeUsers(p.id); }}
                       title="いいねしたユーザー一覧を表示"
                     >
