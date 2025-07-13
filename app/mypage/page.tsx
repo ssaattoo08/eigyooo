@@ -27,6 +27,25 @@ export default function MyPage() {
   const [editVisibility, setEditVisibility] = useState<'public' | 'private'>('public');
   const hd = new Holidays('JP');
   const router = useRouter();
+  const [menuOpenId, setMenuOpenId] = useState<number | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // メニュー外クリックで閉じる
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpenId(null);
+      }
+    }
+    if (menuOpenId !== null) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpenId]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -455,7 +474,7 @@ export default function MyPage() {
           <div style={{ color: "#B89B7B", textAlign: 'center', marginTop: 32, fontSize: 12 }}>まだ投稿がありません。</div>
         ) : (
           posts.map((post: any) => (
-            <div key={post.id} style={{ background: '#fff', border: "1px solid #E5D3B3", borderRadius: 10, padding: 6, margin: '0 auto 6px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 520 }}>
+            <div key={post.id} style={{ background: '#fff', border: "1px solid #E5D3B3", borderRadius: 10, padding: 6, margin: '0 auto 6px auto', boxShadow: '0 1px 4px #eee', display: 'flex', alignItems: 'flex-start', fontFamily: 'Meiryo UI, Meiryo, Yu Gothic, YuGothic, Hiragino Kaku Gothic ProN, Hiragino Sans, Arial, sans-serif', fontSize: 10, color: '#9C7A3A', maxWidth: 520, position: 'relative' }}>
               {/* アイコン画像・イニシャルは非表示 */}
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
@@ -476,6 +495,81 @@ export default function MyPage() {
                       </span>
                     )}
                   </span>
+                  {/* ︙メニューボタン */}
+                  <button
+                    onClick={() => setMenuOpenId(menuOpenId === post.id ? null : post.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      marginLeft: 'auto',
+                      cursor: 'pointer',
+                      outline: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      right: 10,
+                      top: 8,
+                      zIndex: 10
+                    }}
+                    aria-label="メニュー"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B89B7B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="5" r="1.5" fill="#B89B7B" />
+                      <circle cx="12" cy="12" r="1.5" fill="#B89B7B" />
+                      <circle cx="12" cy="19" r="1.5" fill="#B89B7B" />
+                    </svg>
+                  </button>
+                  {/* メニュー本体 */}
+                  {menuOpenId === post.id && (
+                    <div ref={menuRef} style={{
+                      position: 'absolute',
+                      right: 10,
+                      top: 28,
+                      background: '#fff',
+                      border: '1px solid #E5D3B3',
+                      borderRadius: 8,
+                      boxShadow: '0 4px 16px #eee',
+                      minWidth: 80,
+                      zIndex: 100,
+                      padding: '6px 0',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'stretch',
+                    }}>
+                      <button
+                        onClick={() => { setMenuOpenId(null); handleStartEdit(post); }}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: '#9C7A3A',
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                          padding: '8px 16px',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid #F5E7CE',
+                          borderRadius: '8px 8px 0 0',
+                          transition: 'background 0.15s',
+                        }}
+                      >編集</button>
+                      <button
+                        onClick={() => { setMenuOpenId(null); handleDeletePost(post.id); }}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: '#E89A9A',
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                          padding: '8px 16px',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          borderRadius: '0 0 8px 8px',
+                          transition: 'background 0.15s',
+                        }}
+                      >削除</button>
+                    </div>
+                  )}
                 </div>
                 {editingPost?.id === post.id ? (
                   // 編集モード
@@ -548,36 +642,7 @@ export default function MyPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8, justifyContent: 'space-between' }}>
                   {/* 編集・削除ボタン */}
                   <div style={{ display: 'flex', gap: 2 }}>
-                    <button
-                      onClick={() => handleStartEdit(post)}
-                      style={{
-                        padding: '2px 6px',
-                        background: '#F5E7CE',
-                        color: '#9C7A3A',
-                        border: '1px solid #E5D3B3',
-                        borderRadius: 4,
-                        fontSize: 9,
-                        fontWeight: 'bold',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      編集
-                    </button>
-                    <button
-                      onClick={() => handleDeletePost(post.id)}
-                      style={{
-                        padding: '2px 6px',
-                        background: '#F5E7CE',
-                        color: '#E89A9A',
-                        border: '1px solid #E5D3B3',
-                        borderRadius: 4,
-                        fontSize: 9,
-                        fontWeight: 'bold',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      削除
-                    </button>
+                    {/* 編集・削除ボタン部分は削除（メニューに統合） */}
                   </div>
                   {/* いいねボタン */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
