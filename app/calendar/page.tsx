@@ -391,7 +391,7 @@ export default function CalendarPage() {
                       title={likeStates[p.id]?.liked ? "いいね済み" : "いいね！"}
                       onClick={e => { e.stopPropagation(); handleLike(p.id); }}
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill={likeStates[p.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', verticalAlign: 'middle' }}>
+                      <svg width="14" height="14" viewBox="-2 -2 28 28" fill={likeStates[p.id]?.liked ? "#E89A9A" : "none"} stroke="#E89A9A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block', verticalAlign: 'middle', padding: 2 }}>
                         <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill={likeStates[p.id]?.liked ? "#E89A9A" : "#fff"}/>
                         <path d="M12 21C12 21 4 13.5 4 8.5C4 5.42 6.42 3 9.5 3C11.24 3 12.91 3.81 14 5.08C15.09 3.81 16.76 3 18.5 3C21.58 3 24 5.42 24 8.5C24 13.5 16 21 16 21H12Z" fill="#E89A9A" fillOpacity="0.15"/>
                       </svg>
