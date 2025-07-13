@@ -57,6 +57,12 @@ export default function MyPage() {
     fetchProfile();
   }, [currentMonth]);
 
+  useEffect(() => {
+    if (userId && posts.length > 0) {
+      fetchLikes(posts);
+    }
+  }, [userId, posts]);
+
   const fetchMyPosts = async (nickname_ja: string) => {
     if (!nickname_ja) return;
     const { data } = await supabase
