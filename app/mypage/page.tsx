@@ -7,6 +7,7 @@ import Holidays from 'date-holidays';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale';
+import { useRouter } from "next/navigation";
 
 export default function MyPage() {
   const [nickname, setNickname] = useState("");
@@ -20,6 +21,17 @@ export default function MyPage() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [visibility, setVisibility] = useState<'public' | 'private'>('public');
   const hd = new Holidays('JP');
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/");
+      }
+    };
+    checkAuth();
+  }, [router]);
 
   useEffect(() => {
     const fetchProfile = async () => {

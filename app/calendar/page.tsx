@@ -7,6 +7,7 @@ import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, 
 import { ja } from 'date-fns/locale';
 import { enUS } from 'date-fns/locale';
 import React from "react";
+import { useRouter } from "next/navigation";
 
 interface Comment {
   id: number;
@@ -39,6 +40,17 @@ export default function CalendarPage() {
   const [modalNickname, setModalNickname] = useState<string | null>(null);
   const [modalPosts, setModalPosts] = useState<any[]>([]);
   const hd = new Holidays('JP');
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/");
+      }
+    };
+    checkAuth();
+  }, [router]);
 
   useEffect(() => {
     fetchPosts();
